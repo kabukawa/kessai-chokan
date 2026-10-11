@@ -18,10 +18,12 @@
 
 ## 公開の更新
 
-GitHub Pages は、`github-pages` ブランチのルートを HTTPS で公開する。図や解説を直したあとは、そのブランチへ push する。反映には数分かかることがある。
+GitHub Pages は、`github-pages` ブランチのルートを公開する。図や解説を直したあとは、そのブランチへ push する。反映には数分かかることがある。ルートの `CNAME` は `kessai-chokan.kabukawa.biz` のままにする。この 1 行が、公開先のホスト名を GitHub Pages に結び付けている。
 
-公開 URL は https://resume.kabukawa.biz/kessai-chokan/ である。リポジトリ名がパスになる。アカウント `kabukawa` の `kabukawa.github.io` は、履歴書サイト（https://resume.kabukawa.biz/）として `master` から公開済みである。決済の図をそのリポジトリへ置くと履歴書が置き換わるため、図はこちらに分けてある。GitHub がパスを省いて `名前.github.io` だけで公開するのは、そのユーザーサイトか、Organization のサイトだけである。
+公開 URL は https://kessai-chokan.kabukawa.biz/ である。DNS では、ホスト `kessai-chokan` の CNAME を `kabukawa.github.io` に向ける。末尾にドットを付け、`kabukawa.biz` が後ろに足されないようにする。
+
+アカウント `kabukawa` の `kabukawa.github.io` は、履歴書サイト（https://resume.kabukawa.biz/）として `master` から公開済みである。決済の図をそのリポジトリへ置くと履歴書が置き換わるため、図はこちらに分けてある。
 
 ## ページが出ないとき
 
-`github-pages` ブランチのルートに `index.html` があるかを見る。Pages の公開元は、そのブランチの `/` である。設定が違うと 404 になる。図が古いときは、ブラウザの再読込でキャッシュを捨てる。
+`github-pages` ブランチのルートに `index.html` と `CNAME` があるかを見る。Pages の公開元は、そのブランチの `/` である。`kessai-chokan.kabukawa.biz` の CNAME が `kabukawa.github.io` を向いていないと、そのホスト名では開かない。図が古いときは、ブラウザの再読込でキャッシュを捨てる。
