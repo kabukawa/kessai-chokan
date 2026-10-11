@@ -20,7 +20,7 @@
 
 GitHub Pages は、`github-pages` ブランチのルートを HTTPS で公開する。図や解説を直したあとは、そのブランチへ push する。反映には数分かかることがある。
 
-公開 URL にはリポジトリ名が付く。アカウント `kabukawa` の `kabukawa.github.io` は、履歴書サイト（https://resume.kabukawa.biz/）として `master` から公開済みである。決済の図をそこへ置くと履歴書が置き換わるため、このリポジトリを分けている。
+公開 URL は https://resume.kabukawa.biz/kessai-chokan/ である。リポジトリ名がパスになる。アカウント `kabukawa` の `kabukawa.github.io` は、履歴書サイト（https://resume.kabukawa.biz/）として `master` から公開済みである。決済の図をそのリポジトリへ置くと履歴書が置き換わるため、図はこちらに分けてある。GitHub がパスを省いて `名前.github.io` だけで公開するのは、そのユーザーサイトか、Organization のサイトだけである。
 
 ## ページが出ないとき
 
