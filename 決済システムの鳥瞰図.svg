@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="2447" viewBox="0 0 1360 2447">
+<style>text { font-family: "Yu Gothic UI", "Yu Gothic", "Meiryo", sans-serif; }</style>
+<rect width="1360" height="100%" fill="#f3f6fa"/>
+<text x="24" y="40" font-size="26" font-weight="700" fill="#1c2834">わが国の決済システムの鳥瞰図</text>
+<text x="24" y="64" font-size="14" fill="#5c6b7a">左から右へ読む。取引のあと、債権債務を整理し、最後に資金や証券を受け渡す。</text>
+<text x="24" y="84" font-size="12.5" fill="#5c6b7a">日本銀行『決済システムレポート』2024年9月 図表1を、1行につき1種類の決済になるよう組み直した。</text>
+<rect x="24" y="100" width="1312" height="40" rx="8" fill="#ffffff" stroke="#d5dde6"/>
+<rect x="40" y="112" width="16" height="16" rx="3" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.4"/>
+<text x="62" y="125" font-size="12.5" fill="#1c2834">レポートが扱う主要な金融市場インフラ</text>
+<rect x="317.0" y="112" width="16" height="16" rx="3" fill="#ffffff" stroke="#9aabba" stroke-width="1.4"/>
+<text x="339.0" y="125" font-size="12.5" fill="#1c2834">それ以外の仕組み・参加者</text>
+<rect x="519.0" y="112" width="16" height="16" rx="3" fill="#fff4e8" stroke="#c2410c" stroke-width="1.4"/>
+<text x="541.0" y="125" font-size="12.5" fill="#1c2834">DVP（証券と代金を同時に受け渡す）</text>
+<text x="780.25" y="125" font-size="12.5" fill="#5c6b7a">— は、原図のその段階に箱がない</text>
+<text x="24" y="186" font-size="18" font-weight="700" fill="#0f6e6e">1. 資金決済</text>
+<text x="24" y="208" font-size="13" fill="#5c6b7a">お金の受払い。多くの行の右端は、日本銀行の当座預金（日銀ネット当預系）での最終的な資金決済である。</text>
+<rect x="24" y="220" width="1312" height="34" fill="#0f6e6e"/>
+<text x="99.0" y="242" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">何を決済するか</text>
+<text x="335.0" y="242" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">取引・指図・照合</text>
+<text x="681.0" y="242" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">清算（債権債務の整理）</text>
+<text x="1119.0" y="242" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">最終的な受渡し</text>
+<rect x="24" y="254.0" width="1312" height="71.0" fill="#ffffff"/><rect x="24" y="254.0" width="4" height="71.0" fill="#0f6e6e"/><line x1="24" y1="325.0" x2="1336" y2="325.0" stroke="#d5dde6"/>
+<text x="99.0" y="293.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">国庫金</text>
+<rect x="269.0" y="264.0" width="132.0" height="51.0" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="335.0" y="282.8" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">マルチペイメント</text><text x="335.0" y="300.3" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">ネットワーク</text>
+<text x="681.0" y="294.5" text-anchor="middle" font-size="16" fill="#b0bcc8">—</text>
+<rect x="1046.2" y="272.8" width="145.5" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="291.6" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">日本銀行・国庫制度</text>
+<line x1="178.0" y1="289.5" x2="199.0" y2="289.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,289.5 198.0,285.3 198.0,293.7" fill="#7b8b9a"/>
+<line x1="464.0" y1="289.5" x2="485.0" y2="289.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,289.5 484.0,285.3 484.0,293.7" fill="#7b8b9a"/>
+<line x1="870.0" y1="289.5" x2="891.0" y2="289.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,289.5 890.0,285.3 890.0,293.7" fill="#7b8b9a"/>
+<rect x="24" y="325.0" width="1312" height="93.0" fill="#f4f7fb"/><rect x="24" y="325.0" width="4" height="93.0" fill="#0f6e6e"/><line x1="24" y1="418.0" x2="1336" y2="418.0" stroke="#d5dde6"/>
+<text x="99.0" y="375.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">料金収納等</text>
+<rect x="269.0" y="346.0" width="132.0" height="51.0" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="335.0" y="364.8" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">マルチペイメント</text><text x="335.0" y="382.3" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">ネットワーク</text>
+<rect x="601.5" y="335.0" width="159.0" height="33.5" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="681.0" y="353.8" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">クリアリングセンター</text>
+<rect x="635.2" y="374.5" width="91.5" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="681.0" y="393.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">全銀ネット</text>
+<rect x="1053.0" y="354.8" width="132.0" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="373.6" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">日銀ネット当預系</text>
+<line x1="178.0" y1="371.5" x2="199.0" y2="371.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,371.5 198.0,367.3 198.0,375.7" fill="#7b8b9a"/>
+<line x1="464.0" y1="371.5" x2="485.0" y2="371.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,371.5 484.0,367.3 484.0,375.7" fill="#7b8b9a"/>
+<line x1="870.0" y1="371.5" x2="891.0" y2="371.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,371.5 890.0,367.3 890.0,375.7" fill="#7b8b9a"/>
+<rect x="24" y="418.0" width="1312" height="93.0" fill="#ffffff"/><rect x="24" y="418.0" width="4" height="93.0" fill="#0f6e6e"/><line x1="24" y1="511.0" x2="1336" y2="511.0" stroke="#d5dde6"/>
+<text x="99.0" y="468.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">デビットカード</text>
+<rect x="303.0" y="447.8" width="64.0" height="33.5" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="335.0" y="466.6" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">CAFIS</text>
+<rect x="601.5" y="428.0" width="159.0" height="33.5" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="681.0" y="446.8" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">クリアリングセンター</text>
+<rect x="635.2" y="467.5" width="91.5" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="681.0" y="486.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">全銀ネット</text>
+<rect x="1053.0" y="447.8" width="132.0" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="466.6" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">日銀ネット当預系</text>
+<line x1="178.0" y1="464.5" x2="199.0" y2="464.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,464.5 198.0,460.3 198.0,468.7" fill="#7b8b9a"/>
+<line x1="464.0" y1="464.5" x2="485.0" y2="464.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,464.5 484.0,460.3 484.0,468.7" fill="#7b8b9a"/>
+<line x1="870.0" y1="464.5" x2="891.0" y2="464.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,464.5 890.0,460.3 890.0,468.7" fill="#7b8b9a"/>
+<rect x="24" y="511.0" width="1312" height="110.5" fill="#f4f7fb"/><rect x="24" y="511.0" width="4" height="110.5" fill="#0f6e6e"/><line x1="24" y1="621.5" x2="1336" y2="621.5" stroke="#d5dde6"/>
+<text x="99.0" y="570.2" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">CD／ATM</text>
+<text x="335.0" y="571.2" text-anchor="middle" font-size="16" fill="#b0bcc8">—</text>
+<rect x="615.0" y="521.0" width="132.0" height="51.0" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="681.0" y="539.8" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">CD／ATM</text><text x="681.0" y="557.3" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">オンライン提携網</text>
+<rect x="635.2" y="578.0" width="91.5" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="681.0" y="596.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">全銀ネット</text>
+<rect x="1053.0" y="549.5" width="132.0" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="568.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">日銀ネット当預系</text>
+<line x1="178.0" y1="566.2" x2="199.0" y2="566.2" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,566.2 198.0,562.0 198.0,570.5" fill="#7b8b9a"/>
+<line x1="464.0" y1="566.2" x2="485.0" y2="566.2" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,566.2 484.0,562.0 484.0,570.5" fill="#7b8b9a"/>
+<line x1="870.0" y1="566.2" x2="891.0" y2="566.2" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,566.2 890.0,562.0 890.0,570.5" fill="#7b8b9a"/>
+<rect x="24" y="621.5" width="1312" height="71.0" fill="#ffffff"/><rect x="24" y="621.5" width="4" height="71.0" fill="#0f6e6e"/><line x1="24" y1="692.5" x2="1336" y2="692.5" stroke="#d5dde6"/>
+<text x="99.0" y="661.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">電子記録債権</text>
+<rect x="269.0" y="640.2" width="132.0" height="33.5" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="335.0" y="659.0" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">電子債権記録機関</text>
+<rect x="615.0" y="631.5" width="132.0" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="681.0" y="650.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">全銀ネット</text><text x="681.0" y="667.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">（内国為替制度）</text>
+<rect x="1053.0" y="640.2" width="132.0" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="659.0" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">日銀ネット当預系</text>
+<line x1="178.0" y1="657.0" x2="199.0" y2="657.0" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,657.0 198.0,652.8 198.0,661.2" fill="#7b8b9a"/>
+<line x1="464.0" y1="657.0" x2="485.0" y2="657.0" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,657.0 484.0,652.8 484.0,661.2" fill="#7b8b9a"/>
+<line x1="870.0" y1="657.0" x2="891.0" y2="657.0" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,657.0 890.0,652.8 890.0,661.2" fill="#7b8b9a"/>
+<rect x="24" y="692.5" width="1312" height="132.5" fill="#f4f7fb"/><rect x="24" y="692.5" width="4" height="132.5" fill="#0f6e6e"/><line x1="24" y1="825.0" x2="1336" y2="825.0" stroke="#d5dde6"/>
+<text x="99.0" y="762.8" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">振込等</text>
+<text x="335.0" y="763.8" text-anchor="middle" font-size="16" fill="#b0bcc8">—</text>
+<rect x="648.8" y="713.5" width="64.5" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="681.0" y="732.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">ことら</text>
+<rect x="615.0" y="753.0" width="132.0" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="681.0" y="771.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">全銀ネット</text><text x="681.0" y="789.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">（内国為替制度）</text>
+<rect x="1066.5" y="702.5" width="105.0" height="33.5" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="1119.0" y="721.3" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">資金移動業者</text>
+<rect x="1080.0" y="742.0" width="78.0" height="33.5" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="1119.0" y="760.8" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">金融機関</text>
+<rect x="1053.0" y="781.5" width="132.0" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="800.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">日銀ネット当預系</text>
+<line x1="178.0" y1="758.8" x2="199.0" y2="758.8" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,758.8 198.0,754.5 198.0,763.0" fill="#7b8b9a"/>
+<line x1="464.0" y1="758.8" x2="485.0" y2="758.8" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,758.8 484.0,754.5 484.0,763.0" fill="#7b8b9a"/>
+<line x1="870.0" y1="758.8" x2="891.0" y2="758.8" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,758.8 890.0,754.5 890.0,763.0" fill="#7b8b9a"/>
+<rect x="24" y="825.0" width="1312" height="93.0" fill="#ffffff"/><rect x="24" y="825.0" width="4" height="93.0" fill="#0f6e6e"/><line x1="24" y1="918.0" x2="1336" y2="918.0" stroke="#d5dde6"/>
+<text x="99.0" y="865.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">口座引落</text>
+<text x="99.0" y="885.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">クレジットカード</text>
+<rect x="303.0" y="854.8" width="64.0" height="33.5" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="335.0" y="873.5" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">CAFIS</text>
+<text x="681.0" y="876.5" text-anchor="middle" font-size="16" fill="#b0bcc8">—</text>
+<rect x="1080.0" y="835.0" width="78.0" height="33.5" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="1119.0" y="853.8" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">金融機関</text>
+<rect x="1053.0" y="874.5" width="132.0" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="893.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">日銀ネット当預系</text>
+<line x1="178.0" y1="871.5" x2="199.0" y2="871.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,871.5 198.0,867.3 198.0,875.7" fill="#7b8b9a"/>
+<line x1="464.0" y1="871.5" x2="485.0" y2="871.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,871.5 484.0,867.3 484.0,875.7" fill="#7b8b9a"/>
+<line x1="870.0" y1="871.5" x2="891.0" y2="871.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,871.5 890.0,867.3 890.0,875.7" fill="#7b8b9a"/>
+<rect x="24" y="918.0" width="1312" height="53.5" fill="#f4f7fb"/><rect x="24" y="918.0" width="4" height="53.5" fill="#0f6e6e"/><line x1="24" y1="971.5" x2="1336" y2="971.5" stroke="#d5dde6"/>
+<text x="99.0" y="948.8" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">手形・小切手</text>
+<text x="335.0" y="949.8" text-anchor="middle" font-size="16" fill="#b0bcc8">—</text>
+<rect x="635.2" y="928.0" width="91.5" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="681.0" y="946.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">電子交換所</text>
+<rect x="1053.0" y="928.0" width="132.0" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="946.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">日銀ネット当預系</text>
+<line x1="178.0" y1="944.8" x2="199.0" y2="944.8" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,944.8 198.0,940.5 198.0,949.0" fill="#7b8b9a"/>
+<line x1="464.0" y1="944.8" x2="485.0" y2="944.8" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,944.8 484.0,940.5 484.0,949.0" fill="#7b8b9a"/>
+<line x1="870.0" y1="944.8" x2="891.0" y2="944.8" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,944.8 890.0,940.5 890.0,949.0" fill="#7b8b9a"/>
+<rect x="24" y="971.5" width="1312" height="71.0" fill="#ffffff"/><rect x="24" y="971.5" width="4" height="71.0" fill="#0f6e6e"/><line x1="24" y1="1042.5" x2="1336" y2="1042.5" stroke="#d5dde6"/>
+<text x="99.0" y="1011.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">短期金融市場</text>
+<rect x="282.5" y="981.5" width="105.0" height="51.0" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="335.0" y="1000.3" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">短資取引約定</text><text x="335.0" y="1017.8" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">確認システム</text>
+<text x="681.0" y="1012.0" text-anchor="middle" font-size="16" fill="#b0bcc8">—</text>
+<rect x="1053.0" y="990.2" width="132.0" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="1009.0" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">日銀ネット当預系</text>
+<line x1="178.0" y1="1007.0" x2="199.0" y2="1007.0" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,1007.0 198.0,1002.8 198.0,1011.2" fill="#7b8b9a"/>
+<line x1="464.0" y1="1007.0" x2="485.0" y2="1007.0" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,1007.0 484.0,1002.8 484.0,1011.2" fill="#7b8b9a"/>
+<line x1="870.0" y1="1007.0" x2="891.0" y2="1007.0" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,1007.0 890.0,1002.8 890.0,1011.2" fill="#7b8b9a"/>
+<rect x="24" y="1042.5" width="1312" height="93.0" fill="#f4f7fb"/><rect x="24" y="1042.5" width="4" height="93.0" fill="#0f6e6e"/><line x1="24" y1="1135.5" x2="1336" y2="1135.5" stroke="#d5dde6"/>
+<text x="99.0" y="1083.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">外国為替市場</text>
+<text x="99.0" y="1103.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">（円の受払い）</text>
+<rect x="303.0" y="1072.2" width="64.0" height="33.5" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="335.0" y="1091.0" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">SWIFT</text>
+<rect x="610.0" y="1052.5" width="142.0" height="33.5" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="681.0" y="1071.3" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">CLS（円の決済分）</text>
+<rect x="608.2" y="1092.0" width="145.5" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="681.0" y="1110.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">外国為替円決済制度</text>
+<rect x="1053.0" y="1072.2" width="132.0" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="1091.0" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">日銀ネット当預系</text>
+<line x1="178.0" y1="1089.0" x2="199.0" y2="1089.0" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,1089.0 198.0,1084.8 198.0,1093.2" fill="#7b8b9a"/>
+<line x1="464.0" y1="1089.0" x2="485.0" y2="1089.0" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,1089.0 484.0,1084.8 484.0,1093.2" fill="#7b8b9a"/>
+<line x1="870.0" y1="1089.0" x2="891.0" y2="1089.0" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,1089.0 890.0,1084.8 890.0,1093.2" fill="#7b8b9a"/>
+<rect x="24" y="1135.5" width="1312" height="128.0" fill="#ffffff"/><rect x="24" y="1135.5" width="4" height="128.0" fill="#0f6e6e"/><line x1="24" y1="1263.5" x2="1336" y2="1263.5" stroke="#d5dde6"/>
+<text x="99.0" y="1193.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">取引所</text>
+<text x="99.0" y="1213.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">デリバティブ</text>
+<rect x="255.5" y="1163.0" width="159.0" height="33.5" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="335.0" y="1181.8" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">大阪取引所ほか取引所</text>
+<rect x="275.8" y="1202.5" width="118.5" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="335.0" y="1221.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">東京金融取引所</text>
+<rect x="608.2" y="1145.5" width="145.5" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="681.0" y="1164.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">TFX</text><text x="681.0" y="1181.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">金利先物等清算制度</text>
+<rect x="569.5" y="1202.5" width="223.0" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="681.0" y="1221.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">JSCC</text><text x="681.0" y="1238.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">証券取引等・金利スワップ・CDS</text>
+<rect x="1053.0" y="1182.8" width="132.0" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="1201.5" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">日銀ネット当預系</text>
+<line x1="178.0" y1="1199.5" x2="199.0" y2="1199.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,1199.5 198.0,1195.3 198.0,1203.7" fill="#7b8b9a"/>
+<line x1="464.0" y1="1199.5" x2="485.0" y2="1199.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,1199.5 484.0,1195.3 484.0,1203.7" fill="#7b8b9a"/>
+<line x1="870.0" y1="1199.5" x2="891.0" y2="1199.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,1199.5 890.0,1195.3 890.0,1203.7" fill="#7b8b9a"/>
+<rect x="24" y="1263.5" width="1312" height="71.0" fill="#f4f7fb"/><rect x="24" y="1263.5" width="4" height="71.0" fill="#0f6e6e"/><line x1="24" y1="1334.5" x2="1336" y2="1334.5" stroke="#d5dde6"/>
+<text x="99.0" y="1293.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">店頭</text>
+<text x="99.0" y="1313.0" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">デリバティブ</text>
+<rect x="262.2" y="1273.5" width="145.5" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="335.0" y="1292.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">DDRJ</text><text x="335.0" y="1309.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">（取引情報の報告）</text>
+<rect x="610.0" y="1273.5" width="142.0" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="681.0" y="1292.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">JSCC</text><text x="681.0" y="1309.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">金利スワップ・CDS</text>
+<rect x="1053.0" y="1282.2" width="132.0" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="1301.0" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">日銀ネット当預系</text>
+<line x1="178.0" y1="1299.0" x2="199.0" y2="1299.0" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,1299.0 198.0,1294.8 198.0,1303.2" fill="#7b8b9a"/>
+<line x1="464.0" y1="1299.0" x2="485.0" y2="1299.0" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,1299.0 484.0,1294.8 484.0,1303.2" fill="#7b8b9a"/>
+<line x1="870.0" y1="1299.0" x2="891.0" y2="1299.0" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,1299.0 890.0,1294.8 890.0,1303.2" fill="#7b8b9a"/>
+<rect x="24" y="220" width="1312" height="1114.5" fill="none" stroke="#d5dde6"/>
+<text x="24" y="1380.5" font-size="18" font-weight="700" fill="#1e4b8f">2. 証券決済</text>
+<text x="24" y="1402.5" font-size="13" fill="#5c6b7a">株・投資信託・社債の保管と受渡しは証券保管振替機構（JASDEC）。国債の受渡しは日銀ネット国債系。代金は日銀ネット当預系と同時に動く（DVP）。</text>
+<rect x="24" y="1414.5" width="1312" height="34" fill="#1e4b8f"/>
+<text x="99.0" y="1436.5" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">何を決済するか</text>
+<text x="335.0" y="1436.5" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">取引・指図・照合</text>
+<text x="681.0" y="1436.5" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">清算（債権債務の整理）</text>
+<text x="1119.0" y="1436.5" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">最終的な受渡し</text>
+<rect x="24" y="1448.5" width="1312" height="150.0" fill="#ffffff"/><rect x="24" y="1448.5" width="4" height="150.0" fill="#1e4b8f"/><line x1="24" y1="1598.5" x2="1336" y2="1598.5" stroke="#d5dde6"/>
+<text x="99.0" y="1527.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">株式</text>
+<rect x="262.2" y="1478.2" width="145.5" height="33.5" rx="8" fill="#ffffff" stroke="#9aabba" stroke-width="1.15"/><text x="335.0" y="1497.0" text-anchor="middle" font-size="13.5" fill="#1c2834" font-weight="500">東証ほか証券取引所</text>
+<rect x="269.0" y="1517.8" width="132.0" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="335.0" y="1536.5" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">JASDEC</text><text x="335.0" y="1554.0" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">決済照合システム</text>
+<rect x="608.2" y="1469.5" width="145.5" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="681.0" y="1488.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">JSCC</text><text x="681.0" y="1505.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">証券取引等清算制度</text>
+<rect x="616.8" y="1526.5" width="128.5" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="681.0" y="1545.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">JDCC</text><text x="681.0" y="1562.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">一般振替DVP制度</text>
+<rect x="1059.8" y="1458.5" width="118.5" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="1477.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">JASDEC</text><text x="1119.0" y="1494.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">株式等振替制度</text>
+<rect x="1054.8" y="1515.5" width="128.5" height="33.5" rx="8" fill="#fff4e8" stroke="#c2410c" stroke-width="1.6"/><text x="1119.0" y="1534.3" text-anchor="middle" font-size="13.5" fill="#9a3412" font-weight="600">DVPで代金と同時</text>
+<rect x="1032.8" y="1555.0" width="172.5" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="1573.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">代金は日銀ネット当預系</text>
+<line x1="178.0" y1="1523.5" x2="199.0" y2="1523.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,1523.5 198.0,1519.3 198.0,1527.7" fill="#7b8b9a"/>
+<line x1="464.0" y1="1523.5" x2="485.0" y2="1523.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,1523.5 484.0,1519.3 484.0,1527.7" fill="#7b8b9a"/>
+<line x1="870.0" y1="1523.5" x2="891.0" y2="1523.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,1523.5 890.0,1519.3 890.0,1527.7" fill="#7b8b9a"/>
+<rect x="24" y="1598.5" width="1312" height="150.0" fill="#f4f7fb"/><rect x="24" y="1598.5" width="4" height="150.0" fill="#1e4b8f"/><line x1="24" y1="1748.5" x2="1336" y2="1748.5" stroke="#d5dde6"/>
+<text x="99.0" y="1677.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">投資信託</text>
+<rect x="269.0" y="1648.0" width="132.0" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="335.0" y="1666.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">JASDEC</text><text x="335.0" y="1684.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">決済照合システム</text>
+<text x="681.0" y="1678.5" text-anchor="middle" font-size="16" fill="#b0bcc8">—</text>
+<rect x="1053.0" y="1608.5" width="132.0" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="1627.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">JASDEC</text><text x="1119.0" y="1644.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">投資信託振替制度</text>
+<rect x="1054.8" y="1665.5" width="128.5" height="33.5" rx="8" fill="#fff4e8" stroke="#c2410c" stroke-width="1.6"/><text x="1119.0" y="1684.3" text-anchor="middle" font-size="13.5" fill="#9a3412" font-weight="600">DVPで代金と同時</text>
+<rect x="1032.8" y="1705.0" width="172.5" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="1723.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">代金は日銀ネット当預系</text>
+<line x1="178.0" y1="1673.5" x2="199.0" y2="1673.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,1673.5 198.0,1669.3 198.0,1677.7" fill="#7b8b9a"/>
+<line x1="464.0" y1="1673.5" x2="485.0" y2="1673.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,1673.5 484.0,1669.3 484.0,1677.7" fill="#7b8b9a"/>
+<line x1="870.0" y1="1673.5" x2="891.0" y2="1673.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,1673.5 890.0,1669.3 890.0,1677.7" fill="#7b8b9a"/>
+<rect x="24" y="1748.5" width="1312" height="150.0" fill="#ffffff"/><rect x="24" y="1748.5" width="4" height="150.0" fill="#1e4b8f"/><line x1="24" y1="1898.5" x2="1336" y2="1898.5" stroke="#d5dde6"/>
+<text x="99.0" y="1827.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">一般債</text>
+<rect x="269.0" y="1798.0" width="132.0" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="335.0" y="1816.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">JASDEC</text><text x="335.0" y="1834.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">決済照合システム</text>
+<text x="681.0" y="1828.5" text-anchor="middle" font-size="16" fill="#b0bcc8">—</text>
+<rect x="1059.8" y="1758.5" width="118.5" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="1777.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">JASDEC</text><text x="1119.0" y="1794.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">一般債振替制度</text>
+<rect x="1054.8" y="1815.5" width="128.5" height="33.5" rx="8" fill="#fff4e8" stroke="#c2410c" stroke-width="1.6"/><text x="1119.0" y="1834.3" text-anchor="middle" font-size="13.5" fill="#9a3412" font-weight="600">DVPで代金と同時</text>
+<rect x="1032.8" y="1855.0" width="172.5" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="1873.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">代金は日銀ネット当預系</text>
+<line x1="178.0" y1="1823.5" x2="199.0" y2="1823.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,1823.5 198.0,1819.3 198.0,1827.7" fill="#7b8b9a"/>
+<line x1="464.0" y1="1823.5" x2="485.0" y2="1823.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,1823.5 484.0,1819.3 484.0,1827.7" fill="#7b8b9a"/>
+<line x1="870.0" y1="1823.5" x2="891.0" y2="1823.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,1823.5 890.0,1819.3 890.0,1827.7" fill="#7b8b9a"/>
+<rect x="24" y="1898.5" width="1312" height="150.0" fill="#f4f7fb"/><rect x="24" y="1898.5" width="4" height="150.0" fill="#1e4b8f"/><line x1="24" y1="2048.5" x2="1336" y2="2048.5" stroke="#d5dde6"/>
+<text x="99.0" y="1977.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">短期社債</text>
+<rect x="269.0" y="1948.0" width="132.0" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="335.0" y="1966.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">JASDEC</text><text x="335.0" y="1984.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">決済照合システム</text>
+<text x="681.0" y="1978.5" text-anchor="middle" font-size="16" fill="#b0bcc8">—</text>
+<rect x="1053.0" y="1908.5" width="132.0" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="1927.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">JASDEC</text><text x="1119.0" y="1944.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">短期社債振替制度</text>
+<rect x="1054.8" y="1965.5" width="128.5" height="33.5" rx="8" fill="#fff4e8" stroke="#c2410c" stroke-width="1.6"/><text x="1119.0" y="1984.3" text-anchor="middle" font-size="13.5" fill="#9a3412" font-weight="600">DVPで代金と同時</text>
+<rect x="1032.8" y="2005.0" width="172.5" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="2023.8" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">代金は日銀ネット当預系</text>
+<line x1="178.0" y1="1973.5" x2="199.0" y2="1973.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,1973.5 198.0,1969.3 198.0,1977.7" fill="#7b8b9a"/>
+<line x1="464.0" y1="1973.5" x2="485.0" y2="1973.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,1973.5 484.0,1969.3 484.0,1977.7" fill="#7b8b9a"/>
+<line x1="870.0" y1="1973.5" x2="891.0" y2="1973.5" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,1973.5 890.0,1969.3 890.0,1977.7" fill="#7b8b9a"/>
+<rect x="24" y="2048.5" width="1312" height="132.5" fill="#ffffff"/><rect x="24" y="2048.5" width="4" height="132.5" fill="#1e4b8f"/><line x1="24" y1="2181.0" x2="1336" y2="2181.0" stroke="#d5dde6"/>
+<text x="99.0" y="2118.8" text-anchor="middle" font-size="14" font-weight="700" fill="#1c2834">国債</text>
+<rect x="269.0" y="2089.2" width="132.0" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="335.0" y="2108.1" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">JASDEC</text><text x="335.0" y="2125.6" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">決済照合システム</text>
+<rect x="601.5" y="2089.2" width="159.0" height="51.0" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="681.0" y="2108.1" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">JSCC</text><text x="681.0" y="2125.6" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">国債店頭取引清算制度</text>
+<rect x="1053.0" y="2058.5" width="132.0" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="2077.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">日銀ネット国債系</text>
+<rect x="1054.8" y="2098.0" width="128.5" height="33.5" rx="8" fill="#fff4e8" stroke="#c2410c" stroke-width="1.6"/><text x="1119.0" y="2116.8" text-anchor="middle" font-size="13.5" fill="#9a3412" font-weight="600">DVPで資金と同時</text>
+<rect x="1032.8" y="2137.5" width="172.5" height="33.5" rx="8" fill="#e5f1fb" stroke="#1d6fbf" stroke-width="1.6"/><text x="1119.0" y="2156.3" text-anchor="middle" font-size="13.5" fill="#0d3f72" font-weight="600">代金は日銀ネット当預系</text>
+<line x1="178.0" y1="2114.8" x2="199.0" y2="2114.8" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="206.0,2114.8 198.0,2110.6 198.0,2118.9" fill="#7b8b9a"/>
+<line x1="464.0" y1="2114.8" x2="485.0" y2="2114.8" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="492.0,2114.8 484.0,2110.6 484.0,2118.9" fill="#7b8b9a"/>
+<line x1="870.0" y1="2114.8" x2="891.0" y2="2114.8" stroke="#7b8b9a" stroke-width="1.5"/><polygon points="898.0,2114.8 890.0,2110.6 890.0,2118.9" fill="#7b8b9a"/>
+<rect x="24" y="1414.5" width="1312" height="766.5" fill="none" stroke="#d5dde6"/>
+<rect x="24" y="2201.0" width="1312" height="196" rx="8" fill="#ffffff" stroke="#d5dde6"/>
+<text x="40" y="2223.0" font-size="13" font-weight="700" fill="#1c2834">図を読むときの補足</text>
+<text x="40" y="2247.0" font-size="12.5" fill="#1c2834">・国庫金の横線は、清算の列に箱を置かず、日本銀行の国庫制度に入る。料金収納等は、同じマルチペイメントネットワークからクリアリングセンター、全銀ネットを経て日銀ネット当預系に入る。</text>
+<text x="40" y="2267.0" font-size="12.5" fill="#1c2834">・全銀ネットは全国銀行資金決済ネットワークで、その中で銀行間の為替を処理する仕組みが全国銀行内国為替制度である。1件1億円以上は日銀当座預金で1件ずつ即時に決済し、1億円未満は差額を集計して決済する。</text>
+<text x="40" y="2287.0" font-size="12.5" fill="#1c2834">・振込等の線は一本ではない。ことらを経て全銀ネットに入るものと、資金移動業者や金融機関へ直接向かうものがある。ことらの銀行間の差額は1日2回全銀システムに載せ、最後は日銀ネットで決済する。</text>
+<text x="40" y="2307.0" font-size="12.5" fill="#1c2834">・外国為替の円は、SWIFTで指図を送り、CLSの円決済分と全国銀行協会の外国為替円決済制度を経て、日銀ネット当預系で支払う。</text>
+<text x="40" y="2327.0" font-size="12.5" fill="#1c2834">・取引所デリバティブのうち、東京金融取引所の金利先物等はTFX自身が清算する。大阪取引所などの上場デリバティブと、金利スワップ、CDSはJSCCが清算する。DDRJは取引情報を集めて金融庁に報告するだけで、資金の受</text>
+<text x="40" y="2347.0" font-size="12.5" fill="#1c2834">　渡しはしない。</text>
+<text x="40" y="2367.0" font-size="12.5" fill="#1c2834">・株式の取引所取引はJSCCが清算し、取引所外の株式等の振替はJDCCが清算する。投資信託・一般債・短期社債の行には、原図で清算機関の箱がない。</text>
+<text x="40" y="2387.0" font-size="12.5" fill="#1c2834">・原図では全銀ネット、CAFIS、JASDECの決済照合が複数の行にまたがる一つの箱になっている。この図では、どの決済がそこを通るかを行ごとに繰り返している。</text>
+<text x="24" y="2419.0" font-size="11.5" fill="#5c6b7a">出所：日本銀行『決済システムレポート』2024年9月、図表1「わが国の決済システムの鳥瞰図」をもとに作成。</text>
+</svg>

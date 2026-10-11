@@ -1,0 +1,2150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>わが国の決済システムの鳥瞰図</title>
+<style>
+  :root {
+    --ink: #1c2834;
+    --muted: #52606d;
+    --line: #d5dde6;
+    --bg: #e7eef6;
+    --funds: #0f766e;
+    --markets: #b45309;
+    --securities: #1d4ed8;
+    --fmi: #1d6fbf;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    font-family: "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+    color: var(--ink);
+    background: #e8eef5;
+  }
+  .site-head, .site-foot { background: #0c2340; color: #e7eef6; }
+  .site-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-bottom: 3px solid #c4a35a;
+  }
+  .site-head h1 { margin: 0; flex: 1; min-width: 0; color: #fff; font-size: 18px; line-height: 1.35; }
+  .head-actions { display: flex; align-items: center; gap: 10px; }
+  button.icon-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    border: 1px solid #e7c56a;
+    background: #0c2340;
+    color: #f6c445;
+  }
+  button.icon-btn[aria-expanded="true"] {
+    background: #c4a35a;
+    border-color: #c4a35a;
+    color: #0c2340;
+  }
+  button.icon-btn:hover { filter: brightness(1.12); }
+  button.icon-btn .pane { fill: currentColor; }
+  button.icon-btn svg { width: 20px; height: 20px; background: transparent; }
+  .switch {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .switch input { width: 16px; height: 16px; accent-color: #f6c445; }
+  .site-foot {
+    padding: 12px 18px 14px;
+    font-size: 12px;
+    line-height: 1.65;
+    border-top: 3px solid #c4a35a;
+  }
+  .site-foot p { margin: 0 0 4px; }
+  .site-foot a { color: #f6e27a; font-weight: 700; }
+  .site-foot a:hover { color: #fff; }
+  .app { display: grid; grid-template-columns: 280px minmax(0, 1fr) 380px; flex: 1; min-height: 0; }
+  .app.left-collapsed { grid-template-columns: 0 minmax(0, 1fr) 380px; }
+  .app.right-collapsed { grid-template-columns: 280px minmax(0, 1fr) 0; }
+  .app.left-collapsed.right-collapsed { grid-template-columns: 0 minmax(0, 1fr) 0; }
+  .app.left-collapsed #side-left,
+  .app.right-collapsed #side-right {
+    visibility: hidden;
+    overflow: hidden;
+    padding: 0;
+    border: 0;
+    pointer-events: none;
+  }
+  #side-left, #side-right {
+    overflow: auto;
+    min-width: 0;
+    min-height: 0;
+  }
+  #side-left { background: #d5e3f2; border-right: 1px solid #b7c9dc; padding: 16px 14px 28px; }
+  #side-right { background: #f4f6d8; border-left: 1px solid #c9d4a0; padding: 16px 14px 28px; }
+  #side-left h2, #context h2 { color: #0c2340; }
+  #context h2 { font-size: 16px; line-height: 1.45; margin: 0 0 8px; }
+  #context .lead { margin-bottom: 12px; }
+  #context h3 { font-size: 12px; margin: 16px 0 6px; color: var(--muted); letter-spacing: 0.02em; }
+  #context details {
+    border: 1px solid #d5e0b0;
+    border-radius: 8px;
+    margin: 0 0 8px;
+    background: #fff;
+  }
+  #context summary {
+    cursor: pointer;
+    padding: 8px 10px;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  #context summary:hover { background: #f3f8fd; }
+  #context details[open] { border-color: #1d6fbf; background: #f8fbfe; }
+  #context .acc-body { padding: 0 12px 8px; }
+  #context .acc-body p { margin: 0 0 8px; font-size: 12.5px; line-height: 1.65; }
+  #context .links a { display: inline-block; margin: 0 0 4px; color: #1d4ed8; }
+  #tip {
+    position: fixed;
+    z-index: 30;
+    max-width: 320px;
+    background: #1c2834;
+    color: #fff;
+    font-size: 12.5px;
+    line-height: 1.55;
+    padding: 8px 10px;
+    border-radius: 8px;
+    pointer-events: none;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2);
+  }
+  h1 { font-size: 18px; line-height: 1.4; margin: 0 0 8px; }
+  .lead { font-size: 12.5px; line-height: 1.65; color: var(--muted); margin: 0 0 14px; }
+  .toolbar { display: flex; gap: 8px; margin-bottom: 14px; }
+  button, .stage-btn {
+    font: inherit;
+    cursor: pointer;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--ink);
+    border-radius: 8px;
+    padding: 6px 10px;
+  }
+  button:hover, .stage-btn:hover { border-color: #94a3b8; }
+  button.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .block { margin: 0 0 16px; }
+  .block h2 { font-size: 13px; margin: 0 0 8px; }
+  .stage-list { display: grid; gap: 6px; }
+  .stage-btn { text-align: left; }
+  .stage-btn.on { background: #e8f1fb; border-color: var(--fmi); color: #0d3f72; font-weight: 700; }
+  .group-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 10px 0 4px;
+  }
+  .swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  label.flow {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.4;
+    padding: 3px 0;
+    cursor: pointer;
+  }
+  .legend { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .legend i {
+    display: inline-block;
+    width: 22px;
+    height: 10px;
+    border-radius: 4px;
+    margin-right: 6px;
+    vertical-align: -1px;
+  }
+  main { display: grid; grid-template-rows: auto 1fr; min-width: 0; min-height: 0; background: #fff; }
+  .topnote {
+    padding: 10px 16px 6px;
+    font-size: 12.5px;
+    color: var(--muted);
+    background: #f4f7fb;
+  }
+  .viewtabs {
+    display: flex;
+    gap: 6px;
+    padding: 0 12px;
+    background: #f4f7fb;
+    border-bottom: 1px solid var(--line);
+  }
+  .viewtabs button {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 0;
+    background: transparent;
+  }
+  .viewtabs button.on {
+    background: #fff;
+    font-weight: 700;
+    color: #0d3f72;
+    box-shadow: inset 0 -2px 0 #1d6fbf;
+  }
+  .stage { min-width: 0; min-height: 0; display: grid; }
+  .stage > .scroll,
+  .stage > #globe-wrap { grid-area: 1 / 1; min-height: 0; }
+  .stage > [hidden] { display: none !important; }
+  .scroll { overflow-x: hidden; overflow-y: auto; min-width: 0; min-height: 0; }
+  #globe-wrap {
+    position: relative;
+    background: #fff;
+  }
+  #globe { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+  #globe-wrap.dragging #globe { cursor: grabbing; }
+  .globe-bar {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid #c5d4e4;
+    border-radius: 8px;
+    padding: 8px 10px;
+    box-shadow: 0 6px 18px rgba(12, 35, 64, 0.08);
+    font-size: 13px;
+    font-weight: 700;
+    color: #0c2340;
+  }
+  .globe-bar select { font: inherit; font-weight: 500; padding: 4px 8px; border: 1px solid #c5d4e4; border-radius: 6px; background: #fff; color: var(--ink); }
+  .globe-hint {
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 10px;
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #3e5164;
+    pointer-events: none;
+  }
+  #board { position: relative; width: 100%; }
+  .colbar {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    display: flex;
+    width: 100%;
+    background: #f7fafc;
+    border-bottom: 1px solid var(--line);
+  }
+  .colbar button {
+    flex: none;
+    border: 0;
+    border-right: 1px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+    padding: 8px 6px;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .colbar button.on { background: #e8f1fb; color: #0d3f72; }
+  .colbar button small { display: block; font-weight: 500; color: var(--muted); font-size: 11px; }
+  svg { display: block; width: 100%; height: auto; background: #f8fafc; }
+  .coin { pointer-events: none; }
+  @keyframes coinflow { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+  .node { cursor: pointer; }
+  .node rect.shape { stroke-width: 1.4; }
+  .node.what rect.shape { stroke-width: 2.2; }
+  .node.what.hot rect.shape { stroke-width: 2.8; }
+  .node.dim { opacity: 0.16; }
+  .node.hot rect.shape { stroke-width: 2.4; }
+  .edge { fill: none; stroke-linecap: round; }
+  .edge.dim { opacity: 0.07; }
+  #selftest { display: none; white-space: pre-wrap; font-size: 12px; padding: 8px 16px; background: #fff7ed; }
+  #selftest.show { display: block; }
+  html.shot, html.shot body { height: auto; overflow: visible; display: block; }
+  html.shot .app { height: auto; }
+  html.shot main { height: auto; }
+  html.shot .scroll { overflow: visible; }
+  html.shot #board { min-width: 0; width: 1100px; }
+  html.shot #globe-wrap { height: 780px; min-height: 780px; }
+  @media (max-width: 860px) {
+    .app { display: block; height: auto; }
+    .app.left-collapsed #side-left,
+    .app.right-collapsed #side-right { display: none; }
+    .site-head { flex-wrap: wrap; align-items: center; }
+    .site-head h1 { font-size: 16px; overflow-wrap: anywhere; }
+    .head-actions { width: 100%; justify-content: flex-end; }
+    #side-left, #side-right { border-right: 0; border-bottom: 1px solid var(--line); }
+    main { height: auto; }
+    .scroll { overflow: visible; }
+    #globe-wrap { min-height: 680px; }
+    body { height: auto; overflow: auto; }
+  }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <button type="button" class="icon-btn" id="fold-left" aria-expanded="true" aria-label="絞り込みを閉じる" title="絞り込みを閉じる">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 4v16" stroke="currentColor" stroke-width="1.8"/><rect class="pane" x="4.6" y="5.3" width="3.6" height="13.4"/></svg>
+  </button>
+  <h1>わが国の決済システムの鳥瞰図</h1>
+  <div class="head-actions">
+    <label class="switch"><input type="checkbox" id="coin-switch" checked>お金の流れ</label>
+    <button type="button" class="icon-btn" id="fold-right" aria-expanded="true" aria-label="説明を閉じる" title="説明を閉じる">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15 4v16" stroke="currentColor" stroke-width="1.8"/><rect class="pane" x="15.8" y="5.3" width="3.6" height="13.4"/></svg>
+    </button>
+  </div>
+</header>
+<div class="app">
+  <aside id="side-left">
+    <div class="side-body">
+    <h2>絞り込み</h2>
+    <p class="lead">日本銀行『決済システムレポート』2024年9月の図表1を、機関を一つにまとめてつなぎ直した図です。線が集まる箱ほど、多くの決済がそこを通ります。中央は「列で見る」と「地球儀」を切り替えられます。</p>
+    <div class="toolbar">
+      <button type="button" class="primary" id="show-all">すべて表示</button>
+      <button type="button" id="clear-pin">選択を解除</button>
+    </div>
+    <div class="block">
+      <h2>段階で絞る</h2>
+      <div class="stage-list" id="stage-list"></div>
+    </div>
+    <div class="block">
+      <h2>何を決済するか</h2>
+      <div id="flow-list"></div>
+    </div>
+    <div class="legend">
+      <div><i style="background:#e5f1fb;border:1.5px solid #1d6fbf"></i>レポートが扱う主要な金融市場インフラ</div>
+      <div><i style="background:#fff;border:1.5px solid #9aabba"></i>それ以外の仕組み・参加者</div>
+      <div><i style="background:#fff;border:1.5px dashed #c2410c"></i>DVP（証券と代金を同時に受け渡す）</div>
+      <p>「何を決済するか」の箱は、左の資金決済・市場取引・証券決済と同じ色の枠で囲んでいます。</p>
+      <p>箱にマウスを乗せると短い説明が出ます。クリックすると、右の欄に、つながる仕組みとレポートの最近の動きが項目名だけ並びます。項目名を開くと文章が出ます。地球儀は日銀ネット当預系を中心にした図です。球の左上で決済を選ぶと、そのつながりだけが出ます。</p>
+      <p>出所：日本銀行『決済システムレポート』2024年9月、図表1をもとに作成。</p>
+    </div>
+    </div>
+  </aside>
+  <main>
+    <div>
+      <div class="topnote" id="topnote">左から右へ、取引・指図・照合、清算、決済の順です。決済列の右端で、日本銀行に資金が着地します。</div>
+      <div class="viewtabs" role="tablist" aria-label="図の見方">
+        <button type="button" id="tab-columns" role="tab" aria-selected="true" class="on">列で見る</button>
+        <button type="button" id="tab-globe" role="tab" aria-selected="false">地球儀</button>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="scroll" id="scroll-columns">
+        <div id="board">
+          <div class="colbar" id="colbar"></div>
+          <div id="svghost"></div>
+        </div>
+      </div>
+      <div id="globe-wrap" hidden>
+        <div class="globe-bar">
+          <label for="globe-flow">何を決済するか</label>
+          <select id="globe-flow"></select>
+        </div>
+        <canvas id="globe" aria-label="日銀ネット当預系を中心にした決済のネットワーク"></canvas>
+        <p class="globe-hint">ドラッグで回転します。選んだ決済の名前が球の外に出ます。名前をクリックすると、右の欄に説明が出ます。中心は日銀ネット当預系です。</p>
+      </div>
+    </div>
+  </main>
+  <aside id="side-right">
+    <div id="context"></div>
+  </aside>
+</div>
+<footer class="site-foot">
+  <p>このページは、<a href="https://www.boj.or.jp/research/brp/psr/data/psr240910.pdf" target="_blank" rel="noopener">日本銀行『決済システムレポート』（2024年9月）</a>の図表1と本文をもとに作成しています。</p>
+  <p>図と文章の整理には AI を使っています。原文との違い、抜け、誤りがある可能性があります。内容を確認するときは、日本銀行が公表した原文を見てください。</p>
+</footer>
+<div id="tip" hidden></div>
+<pre id="selftest"></pre>
+<script id="graph">
+const STAGES = [
+  { id: "what", label: "何を決済するか", sub: "左側の起点" },
+  { id: "match", label: "取引・指図・照合", sub: "取引の内容を揃える" },
+  { id: "clear", label: "清算", sub: "債権債務を整理する" },
+  { id: "settle", label: "決済", sub: "資金・証券を受け渡す" }
+];
+const COL = {
+  what:   { x: 16,  w: 168 },
+  match:  { x: 230, w: 196 },
+  clear:  { x: 478, w: 214 },
+  settle: { x: 744, w: 214 }
+};
+const BOARD_W = 1100;
+
+const FLOWS = [
+  { id: "kokko", label: "国庫金", group: "funds", note: "料金収納等と同じマルチペイメントネットワークに入ったあと、国庫制度へ分かれる。清算機関は挟まない。" },
+  { id: "ryokin", label: "料金収納等", group: "funds", note: "マルチペイメントネットワークからクリアリングセンター、全銀ネットを経て、日銀ネット当預系で決済する。" },
+  { id: "debit", label: "デビットカード", group: "funds", note: "CAFISで照合し、クリアリングセンターと全銀ネットを経て日銀ネット当預系に着く。" },
+  { id: "cdatm", label: "CD／ATM", group: "funds", note: "照合の列に固有の箱はなく、CD／ATMオンライン提携網から全銀ネットへ入る。" },
+  { id: "densai", label: "電子記録債権", group: "funds", note: "電子債権記録機関から全銀ネット（内国為替制度）に入り、日銀ネット当預系で決済する。" },
+  { id: "furikomi", label: "振込等", group: "funds", note: "すべての振込がことらを通るわけではない。ことらは10万円以下の個人間送金で、銀行間の差額は1日2回全銀システムに載る。ほかの線は資金移動業者と金融機関へ向かう。" },
+  { id: "hikiotoshi", label: "口座引落・クレジットカード", group: "funds", note: "CAFISで処理したあと、清算機関を挟まず金融機関に向かい、資金は日銀ネット当預系で決済する。" },
+  { id: "tegata", label: "手形・小切手", group: "funds", note: "2022年11月以降、電子交換所がイメージデータを交換する。資金決済は日銀ネット当預系。" },
+  { id: "tanki", label: "短期金融市場", group: "markets", note: "短資取引約定確認システムで照合し、清算機関の箱を置かず日銀ネット当預系で決済する。" },
+  { id: "fx", label: "外国為替市場（円）", group: "markets", note: "SWIFTで指図を送り、CLSの円決済分と全国銀行協会の外国為替円決済制度を経て、日銀ネット当預系で支払う。" },
+  { id: "exderiv", label: "取引所デリバティブ", group: "markets", note: "東京金融取引所の金利先物等はTFX自身が清算する。大阪取引所などの上場デリバティブと、金利スワップ、CDSはJSCCが清算する。" },
+  { id: "otc", label: "店頭デリバティブ", group: "markets", note: "DDRJへの線は金融庁への報告であり、資金の受渡しではない。資金決済はJSCCを経て日銀ネット当預系に着く。" },
+  { id: "kabu", label: "株式", group: "securities", note: "取引所取引は東証ほかからJSCCへ。取引所外の振替はJASDECの決済照合からJDCCへ。受渡しは株式等振替制度で、代金は日銀ネット当預系と同時（DVP）。" },
+  { id: "toushin", label: "投資信託", group: "securities", note: "JASDECの決済照合から投資信託振替制度へ。原図の清算列に、この行の清算機関の箱はない。代金はDVPで日銀ネット当預系。" },
+  { id: "ippan", label: "一般債", group: "securities", note: "JASDECの決済照合から一般債振替制度へ。代金はDVPで日銀ネット当預系。" },
+  { id: "cp", label: "短期社債", group: "securities", note: "JASDECの決済照合から短期社債振替制度へ。代金はDVPで日銀ネット当預系。" },
+  { id: "jgb", label: "国債", group: "securities", note: "照合はJASDEC。店頭取引の清算はJSCC。国債の受渡しは日銀ネット国債系で、資金側の日銀ネット当預系とDVPで同時に動く。" }
+];
+
+function N(id, stage, title, sub, fmi) {
+  return { id, stage, title, sub: sub || "", fmi: !!fmi };
+}
+const NODES = [
+  N("kokko", "what", "国庫金"),
+  N("ryokin", "what", "料金収納等"),
+  N("debit", "what", "デビットカード"),
+  N("cdatm", "what", "CD／ATM"),
+  N("densai", "what", "電子記録債権"),
+  N("furikomi", "what", "振込等"),
+  N("hikiotoshi", "what", "口座引落\nクレジットカード"),
+  N("tegata", "what", "手形・小切手"),
+  N("tanki", "what", "短期金融市場"),
+  N("fx", "what", "外国為替市場"),
+  N("exderiv", "what", "取引所\nデリバティブ"),
+  N("otc", "what", "店頭\nデリバティブ"),
+  N("kabu", "what", "株式"),
+  N("toushin", "what", "投資信託"),
+  N("ippan", "what", "一般債"),
+  N("cp", "what", "短期社債"),
+  N("jgb", "what", "国債"),
+
+  N("mpn", "match", "マルチペイメント\nネットワーク"),
+  N("cafis", "match", "CAFIS"),
+  N("densaiOrg", "match", "電子債権記録機関"),
+  N("tanshi", "match", "短資取引約定\n確認システム"),
+  N("swift", "match", "SWIFT"),
+  N("ose", "match", "大阪取引所\nほか取引所"),
+  N("ddrj", "match", "DDRJ", "取引情報の報告", true),
+  N("tse", "match", "東証ほか\n証券取引所"),
+  N("jasdecMatch", "match", "決済照合システム", "JASDEC", true),
+
+  N("ccRyokin", "clear", "クリアリングセンター", "料金収納等"),
+  N("ccDebit", "clear", "クリアリングセンター", "デビットカード"),
+  N("atmnet", "clear", "CD／ATM\nオンライン提携網"),
+  N("kotora", "clear", "ことら", "10万円以下・個人間", true),
+  N("zengin", "clear", "全銀ネット", "内国為替制度", true),
+  N("denshiko", "clear", "電子交換所", "全国銀行協会", true),
+  N("cls", "clear", "CLS", "円の決済分"),
+  N("fxycs", "clear", "外国為替円決済制度", "全国銀行協会", true),
+  N("tfx", "clear", "金利先物等\n清算制度", "東京金融取引所", true),
+  N("jsccEx", "clear", "上場デリバティブ\n金利スワップ・CDS", "JSCC", true),
+  N("jsccCash", "clear", "証券取引等\n清算制度", "JSCC", true),
+  N("jdcc", "clear", "一般振替\nDVP制度", "JDCC", true),
+  N("jsccJgb", "clear", "国債店頭取引\n清算制度", "JSCC", true),
+
+  N("kokkoSys", "settle", "国庫制度", "日本銀行", true),
+  N("shikin", "settle", "資金移動業者"),
+  N("bank", "settle", "金融機関"),
+  N("boj", "settle", "日銀ネット当預系", "日本銀行", true),
+  N("eqSss", "settle", "株式等振替制度", "JASDEC", true),
+  N("itSss", "settle", "投資信託振替制度", "JASDEC", true),
+  N("cbSss", "settle", "一般債振替制度", "JASDEC", true),
+  N("cpSss", "settle", "短期社債振替制度", "JASDEC", true),
+  N("bojJgb", "settle", "日銀ネット国債系", "日本銀行", true)
+];
+
+function E(from, to, flows, kind) {
+  return { from, to, flows, kind: kind || "flow" };
+}
+const EDGES = [
+  E("kokko", "mpn", ["kokko"]),
+  E("mpn", "kokkoSys", ["kokko"]),
+  E("ryokin", "mpn", ["ryokin"]),
+  E("mpn", "ccRyokin", ["ryokin"]),
+  E("ccRyokin", "zengin", ["ryokin"]),
+  E("debit", "cafis", ["debit"]),
+  E("cafis", "ccDebit", ["debit"]),
+  E("ccDebit", "zengin", ["debit"]),
+  E("cdatm", "atmnet", ["cdatm"]),
+  E("atmnet", "zengin", ["cdatm"]),
+  E("densai", "densaiOrg", ["densai"]),
+  E("densaiOrg", "zengin", ["densai"]),
+  E("furikomi", "kotora", ["furikomi"]),
+  E("kotora", "zengin", ["furikomi"]),
+  E("furikomi", "shikin", ["furikomi"]),
+  E("furikomi", "bank", ["furikomi"]),
+  E("hikiotoshi", "cafis", ["hikiotoshi"]),
+  E("cafis", "bank", ["hikiotoshi"]),
+  E("bank", "boj", ["furikomi", "hikiotoshi"]),
+  E("zengin", "boj", ["ryokin", "debit", "cdatm", "densai", "furikomi"]),
+  E("tegata", "denshiko", ["tegata"]),
+  E("denshiko", "boj", ["tegata"]),
+  E("tanki", "tanshi", ["tanki"]),
+  E("tanshi", "boj", ["tanki"]),
+  E("fx", "swift", ["fx"]),
+  E("swift", "cls", ["fx"]),
+  E("cls", "fxycs", ["fx"]),
+  E("cls", "boj", ["fx"]),
+  E("fxycs", "boj", ["fx"]),
+  E("exderiv", "ose", ["exderiv"]),
+  E("ose", "jsccEx", ["exderiv"]),
+  E("exderiv", "tfx", ["exderiv"]),
+  E("tfx", "boj", ["exderiv"]),
+  E("jsccEx", "boj", ["exderiv", "otc"]),
+  E("otc", "ddrj", ["otc"], "report"),
+  E("otc", "jsccEx", ["otc"]),
+  E("kabu", "tse", ["kabu"]),
+  E("tse", "jsccCash", ["kabu"]),
+  E("jsccCash", "eqSss", ["kabu"]),
+  E("kabu", "jasdecMatch", ["kabu"]),
+  E("jasdecMatch", "jdcc", ["kabu"]),
+  E("jdcc", "eqSss", ["kabu"]),
+  E("toushin", "jasdecMatch", ["toushin"]),
+  E("jasdecMatch", "itSss", ["toushin"]),
+  E("ippan", "jasdecMatch", ["ippan"]),
+  E("jasdecMatch", "cbSss", ["ippan"]),
+  E("cp", "jasdecMatch", ["cp"]),
+  E("jasdecMatch", "cpSss", ["cp"]),
+  E("jgb", "jasdecMatch", ["jgb"]),
+  E("jgb", "jsccJgb", ["jgb"]),
+  E("jsccJgb", "bojJgb", ["jgb"]),
+  E("eqSss", "boj", ["kabu"], "dvp"),
+  E("itSss", "boj", ["toushin"], "dvp"),
+  E("cbSss", "boj", ["ippan"], "dvp"),
+  E("cpSss", "boj", ["cp"], "dvp"),
+  E("bojJgb", "boj", ["jgb"], "dvp")
+];
+
+const NODE_NOTES = {
+  mpn: "国庫金と料金収納等が集まるネットワーク。ここから国庫制度と、料金収納等のクリアリングセンターへ分かれる。",
+  cafis: "デビットカード、口座引落、クレジットカードの照合に使う。デビットカードは清算へ、口座引落とクレジットカードは金融機関へ分かれる。",
+  densaiOrg: "電子記録債権の発生や譲渡を記録する機関。資金の決済は全銀ネットを経て日銀ネット当預系に着く。",
+  tanshi: "短期金融市場の取引内容を確認する。清算機関の箱は置かず、資金は日銀ネット当預系で決済する。",
+  swift: "外国為替の指図を送る国際的なメッセージ網。資金そのものはCLSの円決済分と外国為替円決済制度を経て動く。",
+  ose: "大阪取引所などの上場デリバティブ取引所。清算はJSCCが行う。",
+  ddrj: "店頭デリバティブの取引情報を集め、金融庁に報告する。資金や証券の受渡しはしない。",
+  tse: "株式等の取引所取引の場。清算はJSCCの証券取引等清算制度が行い、受渡しはJASDECの株式等振替制度で行う。",
+  jasdecMatch: "株式、投資信託、一般債、短期社債、国債の約定と決済指図を照合する。国債の保管そのものは日銀ネット国債系である。",
+  ccRyokin: "料金収納等の債権債務を整理し、全銀ネットへ渡す。デビットカードのクリアリングセンターとは別の箱である。",
+  ccDebit: "デビットカードの債権債務を整理し、全銀ネットへ渡す。料金収納等のクリアリングセンターとは別の箱である。",
+  atmnet: "CD／ATMのオンライン提携網。照合列に固有の箱はなく、ここから全銀ネットへ入る。",
+  kotora: "10万円以下の個人間送金。専用アプリはなく、金融機関間の差額は1日2回、全銀システム経由で日銀ネットに着く。",
+  zengin: "全国銀行内国為替制度。個人や企業の振込などに伴う金融機関同士の決済を、全銀ネットが運営する。1件1億円以上は即時、1億円未満は1日1回の差額決済。",
+  denshiko: "全国銀行協会の電子交換所。2022年11月から、手形・小切手は紙の呈示に代えてイメージデータを交換する。",
+  cls: "多通貨同時決済のうち、円の決済分。外国為替円決済制度と日銀ネット当預系の両方へつながる。",
+  fxycs: "全国銀行協会が運営する外国為替円決済制度。海外との円送金と、外国為替の売買に伴う円を、1件ずつ即時に決済する。",
+  tfx: "東京金融取引所。金利先物等の市場を提供し、その上場デリバティブを自ら清算する。",
+  jsccEx: "JSCCが清算する上場デリバティブ、金利スワップ、CDS。資金決済は日銀ネット当預系に着く。",
+  jsccCash: "取引所で行われる株式等の現物取引を、JSCCの証券取引等清算制度が清算する。",
+  jdcc: "JASDECの子会社。取引所の外で行う株式等の振替を清算し、受渡しは株式等振替制度で行う。",
+  jsccJgb: "国債の店頭取引をJSCCが清算する。受渡しは日銀ネット国債系で、代金は日銀ネット当預系と同時に動く。",
+  kokkoSys: "日本銀行の国庫制度。国庫金はマルチペイメントネットワークからここに入り、清算機関は挟まない。",
+  shikin: "決済列の参加者として原図に描かれる。2022年10月、全銀システムの参加資格を資金移動業者へ広げることが決まった。この図に、資金移動業者から日銀ネット当預系への線はない。",
+  bank: "振込等と、口座引落・クレジットカードの資金が集まる。金融機関同士の差額は日銀ネット当預系で決済される。",
+  boj: "民間の決済システムの多くは、最後にここの日銀当座預金で資金が決済される。証券の代金もDVPでここにつながる。",
+  eqSss: "JASDECの株式等振替制度。取引所取引も、取引所外の振替も、ここで証券を受け渡す。代金は日銀ネット当預系と同時（DVP）。",
+  itSss: "JASDECの投資信託振替制度。決済照合から直接入り、代金は日銀ネット当預系と同時（DVP）。この行の清算機関の箱は原図にない。",
+  cbSss: "JASDECの一般債振替制度。決済照合から直接入り、代金は日銀ネット当預系と同時（DVP）。",
+  cpSss: "JASDECの短期社債振替制度。決済照合から直接入り、代金は日銀ネット当預系と同時（DVP）。",
+  bojJgb: "日銀ネット国債系。国債の入札・発行と受渡しを処理し、資金側の日銀ネット当預系とDVPで同時に動く。"
+};
+
+function nodeHeight(node) {
+  const lines = node.title.split("\n").length + (node.sub ? 1 : 0);
+  return 14 + lines * 18;
+}
+
+function build() {
+  const flowMap = Object.fromEntries(FLOWS.map(f => [f.id, f]));
+  const nodes = NODES.map(n => Object.assign({}, n, { h: nodeHeight(n), w: COL[n.stage].w }));
+  const byId = Object.fromEntries(nodes.map(n => [n.id, n]));
+  const issues = [];
+  for (const e of EDGES) {
+    if (!byId[e.from] || !byId[e.to]) issues.push("unknown endpoint " + e.from + " -> " + e.to);
+    for (const f of e.flows) if (!flowMap[f]) issues.push("unknown flow " + f);
+  }
+  const whatOrder = FLOWS.map(f => f.id);
+  const whatY = {};
+  let cursor = 18;
+  for (const id of whatOrder) {
+    const n = byId[id];
+    n.x = COL.what.x;
+    n.y = cursor;
+    whatY[id] = cursor + n.h / 2;
+    cursor += n.h + 8;
+    if (id === "otc") cursor += 26;
+  }
+  function flowsOf(id) {
+    const s = new Set();
+    for (const e of EDGES) if (e.from === id || e.to === id) e.flows.forEach(f => s.add(f));
+    return [...s];
+  }
+  for (const stage of ["match", "clear", "settle"]) {
+    const list = nodes.filter(n => n.stage === stage);
+    for (const n of list) {
+      const ys = flowsOf(n.id).map(f => whatY[f]).filter(v => v != null);
+      const bias = { kotora: -70, zengin: 20, jsccCash: 36 }[n.id] || 0;
+      n.desire = (ys.length ? ys.reduce((a, b) => a + b, 0) / ys.length : 0) + bias;
+      n.x = COL[stage].x;
+    }
+    list.sort((a, b) => a.desire - b.desire || a.title.localeCompare(b.title, "ja"));
+    let y = 18;
+    for (const n of list) {
+      const top = Math.max(y, n.desire - n.h / 2);
+      n.y = top;
+      y = top + n.h + 12;
+    }
+  }
+  let height = 40;
+  for (const n of nodes) height = Math.max(height, n.y + n.h + 28);
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const a = nodes[i], b = nodes[j];
+      const overlap = a.x < b.x + b.w - 1 && b.x < a.x + a.w - 1 && a.y < b.y + b.h - 1 && b.y < a.y + a.h - 1;
+      if (overlap) issues.push("overlap " + a.id + " " + b.id);
+    }
+  }
+  const outgoing = {};
+  for (const id of whatOrder) {
+    const seen = new Set();
+    (function walk(from) {
+      let count = 0;
+      for (const e of EDGES) {
+        if (e.from !== from || !e.flows.includes(id)) continue;
+        count++;
+        walk(e.to);
+      }
+      if (!count) seen.add(from);
+    })(id);
+    if (![...EDGES].some(e => e.flows.includes(id) && e.from === id)) issues.push("flow has no path " + id);
+  }
+  return { nodes, byId, edges: EDGES, flows: FLOWS, flowMap, height, issues, whatY };
+}
+
+function pathsOf(flowId) {
+  const paths = [];
+  (function walk(id, acc, kinds) {
+    const next = EDGES.filter(e => e.from === id && e.flows.includes(flowId));
+    if (!next.length) {
+      paths.push({ nodes: acc.slice(), kinds: kinds.slice() });
+      return;
+    }
+    for (const e of next) {
+      acc.push(e.to);
+      kinds.push(e.kind);
+      walk(e.to, acc, kinds);
+      acc.pop();
+      kinds.pop();
+    }
+  })(flowId, [flowId], []);
+  return paths;
+}
+</script>
+<script>
+const model = build();
+const state = {
+  flows: new Set(FLOWS.map(f => f.id)),
+  pin: null,
+  hover: null,
+  view: "columns",
+  globeFlow: "",
+  coins: true
+};
+
+const params = new URLSearchParams(location.search);
+if (params.get("flows")) state.flows = new Set(params.get("flows").split(",").filter(Boolean));
+if (params.get("pin")) state.pin = { type: params.get("pintype") || "node", id: params.get("pin") };
+if (params.get("view") === "globe") state.view = "globe";
+if (params.get("globeflow")) state.globeFlow = params.get("globeflow");
+if (params.get("coins") === "0") state.coins = false;
+if (params.get("shot") === "1") document.documentElement.classList.add("shot");
+
+const STAGE_ORDER = ["what", "match", "clear", "settle"];
+
+const GROUP_COLOR = { funds: "#0f766e", markets: "#b45309", securities: "#1d4ed8", dvp: "#c2410c", report: "#64748b", mixed: "#334155" };
+const GROUP_LABEL = { funds: "資金決済", markets: "市場取引", securities: "証券決済" };
+
+const TOPICS = [
+  {
+    id: "bojnet",
+    title: "日銀ネット",
+    nodes: ["boj", "bojJgb", "tanki", "tanshi", "swift"],
+    paras: [
+      "当預系は、金融機関同士の資金取引、証券取引の代金、民間の決済システムの最終的な資金決済を、日銀当座預金の振替で処理する。国債系は、国債の入札・発行と受渡しを処理する。二つを連動させると、国債のDVPになる。",
+      "2023年の1営業日平均は、資金決済が約235兆円（約8.3万件）、国債決済が約131兆円（約3.2万件）だった。当預系の増加は、金融緩和で当座預金残高が高いなかのコール取引等が中心である。国債系のDVPが増えた背景には、従来はDVPでなかった取引が清算機関経由のDVPに移ったことと、非居住者の債券需要がある。",
+      "クロスボーダー送金に使う外国為替円決済と、海外の中央銀行等から受け入れた預り金には、ISO 20022を使っている。日本銀行は、日銀ネットの当該電文を2025年11月に2019年版（バージョン8）へ改訂し、共通ガイドラインCBPR+に原則として合わせると、2024年1月と3月に公表した。SWIFTは旧形式（MT）との併用を2025年11月に終える。記入できる情報が増え、支払人・受取人の情報を構造化して載せやすくなる。"
+    ]
+  },
+  {
+    id: "zengin",
+    title: "全銀システム",
+    nodes: ["zengin", "shikin", "furikomi", "ryokin", "debit", "cdatm", "densai"],
+    paras: [
+      "1件1億円以上は、指図が日銀ネット当預系に連携され、1件ずつ即時に決済される。1億円未満は、全銀ネットが金融機関ごとの受払差額を計算し、1日1回、日銀当座預金で決済する。2018年10月のモアタイム以降、休日を含む24時間、他行宛ての振込がその場で着金する。金額の約7割は大口、件数の99%超は小口である。",
+      "2021年10月、銀行が各自で決めていた銀行間手数料をやめ、全銀ネットが一律の運営費を設けた。多くの金融機関では、3万円未満の振込の金融機関間の手数料が1件117円から62円になった。2022年10月には、参加資格を資金移動業者へ広げることと、APIによる接続を決めた。",
+      "2023年3月の第8次全銀システムの基本方針は、汎用的な基盤やOSの採用と、内国為替・資金清算の領域と付加サービスの領域の分離を決めている。付加サービスはクラウドの利用も視野に入る。2023年10月には、1973年の稼働以来はじめての大規模障害が起き、数百万件の顧客に影響した。ベンダー管理と業務継続が課題として残り、全銀ネットは2024年度末を目途に再発防止を進めている。"
+    ]
+  },
+  {
+    id: "fxycs",
+    title: "外国為替円決済制度とCLS",
+    nodes: ["fxycs", "cls", "swift", "fx"],
+    paras: [
+      "外国為替円決済制度は、海外との円建ての送金と、外国為替の売買に伴う円を、1件ずつ即時に決済する。取扱金額は2008年の金融危機で縮み、その後は緩やかに戻っている。SWIFTの電文を日銀ネットの電文に変換して処理するため、全国銀行協会は制度の電文改訂を進めている。",
+      "報告書は、いまの外国為替の決済がCLS銀行を経由することで、必要な日中流動性を抑えていると書いている。図のCLSは、そのうち円の決済分である。"
+    ]
+  },
+  {
+    id: "jasdec",
+    title: "JASDEC",
+    nodes: ["jasdecMatch", "eqSss", "itSss", "cbSss", "cpSss", "kabu", "toushin", "ippan", "cp", "jgb"],
+    paras: [
+      "株式等、短期社債、一般債、投資信託は、JASDECと日銀ネット当預系を連動させてDVP決済できる。短期社債の決済金額は、2016年のマイナス金利導入後に現先での調達が減って落ち、その後は発行残高の増加とともに緩やかに増えた。株式の決済金額は2020年以降、相場の変動に伴って増加基調にある。投資信託と一般債は横ばいである。",
+      "2023年10月から新規上場の日程を柔軟にし、2024年4月から一定の非上場株式等を株式等振替制度と一般振替DVP制度で扱えるようにした。2024年1月には口座管理手数料等を下げた。バックアップセンターの遠隔地移転（2021年5月）、免震ビルへの本社移転（2021年10月）、第二オペレーションルーム（2024年1月）と、障害時に決済時限を臨時延長する枠組み（2024年度中に段階適用）が進んでいる。",
+      "決済照合システムは、株式、投資信託、一般債、短期社債、国債の約定と決済指図を照合する。国債そのものの保管は日銀ネット国債系である。"
+    ]
+  },
+  {
+    id: "jdcc",
+    title: "JDCC（ほふりクリアリング）",
+    nodes: ["jdcc", "kabu"],
+    paras: [
+      "JASDECの完全子会社で、取引所の外で行う金融機関間の株式等の振替を清算する。債務引受額は、株価、相場変動、清算機関の利用拡大を受けて2012年末以降増えている。"
+    ]
+  },
+  {
+    id: "jscc",
+    title: "JSCC",
+    nodes: ["jsccEx", "jsccCash", "jsccJgb", "ose", "tse", "exderiv", "otc", "kabu", "jgb"],
+    paras: [
+      "債務引受は、現物株式、指数先物、金利スワップ、国債店頭（レポを含む）で増えている。2020年7月、日本商品清算機構を統合し、貴金属、ゴム、農産物、エネルギーの先物等の清算を始めた。2022年9月から大阪取引所と東京商品取引所で祝日取引を始め、2023年5月にTONA3か月金利先物の清算を始めた。2024年3月には、円金利スワップのクロスマージンの対象に、この金利先物を加えた。",
+      "サービスの拡大は競争力のために必要だと報告書は整理したうえで、清算機関が過度なリスクを負わないよう、証拠金の算定を随時見直していると書いている。2023年11月には、世界の主要な清算機関が参加する破綻処理の訓練に参加した。",
+      "図では制度ごとに箱を分けている。上場デリバティブと金利スワップ、CDSは一つの箱、取引所の株式等の現物は証券取引等清算制度、国債の店頭取引は国債店頭取引清算制度である。"
+    ]
+  },
+  {
+    id: "tfx",
+    title: "東京金融取引所",
+    nodes: ["tfx", "exderiv"],
+    paras: [
+      "低金利が続いたあいだ、金利先物等は低位だった。2020年以降は、為替と株価の変動を受け、個人を中心に為替証拠金と株価指数証拠金が増えた。2023年3月にTONA3か月金利先物を上場し、2023年11月には貸出債権の取引情報を共有する基盤を2025年度に稼働させる計画を公表した。市場の提供と、その上場デリバティブの清算の両方を行う。"
+    ]
+  },
+  {
+    id: "ddrj",
+    title: "DDRJ",
+    nodes: ["ddrj", "otc"],
+    paras: [
+      "金融庁が指定した、日本で唯一の取引情報蓄積機関である。店頭デリバティブの取引情報を集め、金融庁に報告する。資金や証券の受渡しはしない。",
+      "以前は、DDRJ経由の報告と金融庁への直接報告を選べ、清算機関経由の取引は清算機関が報告していた。2020年の金融商品取引法改正で報告事項が拡充され、店頭デリバティブの報告はDDRJに一本化された。施行は2024年4月1日である。"
+    ]
+  },
+  {
+    id: "kotora",
+    title: "ことら",
+    nodes: ["kotora", "furikomi"],
+    paras: [
+      "2022年10月に稼働した。対象は10万円以下の個人間送金である。24時間利用と即時入金に加え、電話番号やメールアドレスと口座の紐付け、メッセージの添付、入金の確認ができる。専用アプリはなく、金融機関のアプリやBank Payから送る。",
+      "金融機関間の差額は1日2回、全銀システムに連携し、全銀の差額と合算したうえで日銀ネットで決済する。2024年8月時点の提供先は293で、いずれも手数料を無料にしていた。すべての振込がことらを通るわけではない。"
+    ]
+  },
+  {
+    id: "tegata",
+    title: "手形・小切手と電子交換所",
+    nodes: ["tegata", "denshiko", "densai", "densaiOrg"],
+    paras: [
+      "交換高は、インターネット・バンキングと電子記録債権の利用が増えるなかで減り続けている。2022年11月、全国銀行協会の電子交換所が稼働し、紙の呈示に代えてイメージデータを交換するようになった。全国179か所の手形交換所は交換業務を終えた。",
+      "全面的な電子化の自主行動計画は、2026年度末までに電子交換所での交換枚数をゼロにすることを最終目標にしている。"
+    ]
+  }
+];
+
+const REPORT_LINK = { href: "https://www.boj.or.jp/research/brp/psr/psr240910.htm", label: "日本銀行「決済システムレポート」（2024年9月）" };
+const TOPIC_LINKS = {
+  bojnet: [
+    { href: "https://www.boj.or.jp/paym/bojnet/index.htm", label: "日本銀行「日銀ネットの運営」" },
+    { href: "https://www.boj.or.jp/paym/bojnet/net_forum/index.htm", label: "日本銀行「日銀ネットの有効活用に向けた協議会」（ISO 20022の資料）" },
+    REPORT_LINK
+  ],
+  zengin: [
+    { href: "https://www.zengin-net.jp/zengin_system/", label: "全銀ネット「全銀システムとは」" },
+    { href: "https://www.zengin-net.jp/zengin_system/cotra/", label: "全銀ネット「ことらシステムとの連携について」" },
+    REPORT_LINK
+  ],
+  fxycs: [
+    { href: "https://www.boj.or.jp/paym/bojnet/net_forum/index.htm", label: "日本銀行「日銀ネットの有効活用に向けた協議会」（電文改訂の資料）" },
+    { href: "https://swift.com/ja/node/309447", label: "SWIFT「HVPS+」（レポートが参照している電文ガイドライン）" },
+    { href: "https://www.zenginkyo.or.jp/", label: "全国銀行協会" },
+    REPORT_LINK
+  ],
+  jasdec: [
+    { href: "https://www.jasdec.com/", label: "証券保管振替機構（JASDEC）" },
+    REPORT_LINK
+  ],
+  jdcc: [
+    { href: "https://www.jasdec.com/about/jdcc/index.html", label: "証券保管振替機構「子会社 ほふりクリアリング」" },
+    REPORT_LINK
+  ],
+  jscc: [
+    { href: "https://www.jpx.co.jp/jscc/index.html", label: "日本証券クリアリング機構（JSCC）" },
+    REPORT_LINK
+  ],
+  tfx: [
+    { href: "https://www.tfx.co.jp/", label: "東京金融取引所" },
+    REPORT_LINK
+  ],
+  ddrj: [
+    { href: "https://www.dtcc.com/repository-and-derivatives-services/repository-services/jfsa", label: "DTCC「DDRJ（日本の取引情報蓄積）」" },
+    REPORT_LINK
+  ],
+  kotora: [
+    { href: "https://www.cotra.ne.jp/p2pservice/", label: "ことら「ことら送金」" },
+    { href: "https://www.zengin-net.jp/zengin_system/cotra/", label: "全銀ネット「ことらシステムとの連携について」" },
+    REPORT_LINK
+  ],
+  tegata: [
+    { href: "https://www.zenginkyo.or.jp/", label: "全国銀行協会（電子交換所の運営者）" },
+    REPORT_LINK
+  ]
+};
+const NODE_LINKS = {
+  boj: [{ href: "https://www.boj.or.jp/paym/bojnet/index.htm", label: "日本銀行「日銀ネットの運営」" }],
+  bojJgb: [{ href: "https://www.boj.or.jp/paym/bojnet/index.htm", label: "日本銀行「日銀ネットの運営」" }],
+  kokkoSys: [{ href: "https://www.boj.or.jp/paym/bojnet/index.htm", label: "日本銀行「日銀ネットの運営」" }],
+  zengin: [{ href: "https://www.zengin-net.jp/zengin_system/", label: "全銀ネット「全銀システムとは」" }],
+  shikin: [{ href: "https://www.zengin-net.jp/zengin_system/", label: "全銀ネット「全銀システムとは」" }],
+  kotora: [
+    { href: "https://www.cotra.ne.jp/p2pservice/", label: "ことら「ことら送金」" },
+    { href: "https://www.zengin-net.jp/zengin_system/cotra/", label: "全銀ネット「ことらシステムとの連携について」" }
+  ],
+  swift: [{ href: "https://swift.com/ja/node/309447", label: "SWIFT「HVPS+」（レポートが参照している電文ガイドライン）" }],
+  fxycs: [{ href: "https://www.zenginkyo.or.jp/", label: "全国銀行協会" }],
+  jasdecMatch: [{ href: "https://www.jasdec.com/", label: "証券保管振替機構（JASDEC）" }],
+  eqSss: [{ href: "https://www.jasdec.com/", label: "証券保管振替機構（JASDEC）" }],
+  itSss: [{ href: "https://www.jasdec.com/", label: "証券保管振替機構（JASDEC）" }],
+  cbSss: [{ href: "https://www.jasdec.com/", label: "証券保管振替機構（JASDEC）" }],
+  cpSss: [{ href: "https://www.jasdec.com/", label: "証券保管振替機構（JASDEC）" }],
+  jdcc: [{ href: "https://www.jasdec.com/about/jdcc/index.html", label: "証券保管振替機構「子会社 ほふりクリアリング」" }],
+  jsccEx: [{ href: "https://www.jpx.co.jp/jscc/index.html", label: "日本証券クリアリング機構（JSCC）" }],
+  jsccCash: [{ href: "https://www.jpx.co.jp/jscc/index.html", label: "日本証券クリアリング機構（JSCC）" }],
+  jsccJgb: [{ href: "https://www.jpx.co.jp/jscc/index.html", label: "日本証券クリアリング機構（JSCC）" }],
+  tfx: [{ href: "https://www.tfx.co.jp/", label: "東京金融取引所" }],
+  ddrj: [{ href: "https://www.dtcc.com/repository-and-derivatives-services/repository-services/jfsa", label: "DTCC「DDRJ（日本の取引情報蓄積）」" }],
+  denshiko: [{ href: "https://www.zenginkyo.or.jp/", label: "全国銀行協会" }]
+};
+
+function activeSpotlight() { return state.hover || state.pin; }
+
+function flowActive(id) {
+  if (state.view === "globe" && state.globeFlow) return id === state.globeFlow;
+  return state.flows.has(id);
+}
+
+function flowsThrough(nodeId) {
+  const s = new Set();
+  for (const e of model.edges) {
+    if (e.from !== nodeId && e.to !== nodeId) continue;
+    e.flows.forEach(f => { if (flowActive(f)) s.add(f); });
+  }
+  return s;
+}
+
+function edgeVisible(e) {
+  return e.flows.some(flowActive);
+}
+
+function edgeHot(e) {
+  if (!edgeVisible(e)) return false;
+  const spot = activeSpotlight();
+  if (!spot) return false;
+  if (spot.type === "flow") return e.flows.includes(spot.id) && flowActive(spot.id);
+  if (spot.type === "stage") {
+    const a = model.byId[e.from], b = model.byId[e.to];
+    return a.stage === spot.id || b.stage === spot.id;
+  }
+  if (spot.type === "node") return flowsThrough(spot.id).size && e.flows.some(f => flowsThrough(spot.id).has(f));
+  return false;
+}
+
+function nodeHot(n) {
+  const spot = activeSpotlight();
+  if (!spot) return false;
+  if (spot.type === "node") return n.id === spot.id || flowsThrough(spot.id).size && model.edges.some(e => edgeHot(e) && (e.from === n.id || e.to === n.id));
+  if (spot.type === "flow") return model.edges.some(e => edgeHot(e) && (e.from === n.id || e.to === n.id)) || n.id === spot.id;
+  if (spot.type === "stage") return n.stage === spot.id || model.edges.some(e => edgeHot(e) && (e.from === n.id || e.to === n.id));
+  return false;
+}
+
+function nodeShown(n) {
+  if (n.stage === "what") {
+    if (state.view === "globe" && state.globeFlow) return n.id === state.globeFlow;
+    return state.flows.has(n.id);
+  }
+  return model.edges.some(e => edgeVisible(e) && (e.from === n.id || e.to === n.id));
+}
+
+function edgeColor(e) {
+  if (e.kind === "dvp") return GROUP_COLOR.dvp;
+  if (e.kind === "report") return GROUP_COLOR.report;
+  const groups = new Set(e.flows.filter(flowActive).map(f => model.flowMap[f].group));
+  if (groups.size === 1) return GROUP_COLOR[[...groups][0]];
+  return GROUP_COLOR.mixed;
+}
+
+function pathFromPoints(pts) {
+  const clean = [pts[0]];
+  for (let i = 1; i < pts.length; i++) {
+    const q = clean[clean.length - 1];
+    if (Math.abs(pts[i][0] - q[0]) > 0.4 || Math.abs(pts[i][1] - q[1]) > 0.4) clean.push(pts[i]);
+  }
+  let d = "M " + clean[0][0] + " " + clean[0][1];
+  for (let i = 1; i < clean.length; i++) d += " L " + clean[i][0] + " " + clean[i][1];
+  return d;
+}
+
+function laneY(stage, target) {
+  const pad = 5;
+  const nodes = model.nodes.filter(n => n.stage === stage && nodeShown(n)).sort((a, b) => a.y - b.y);
+  const blocked = nodes.some(n => target >= n.y - pad && target <= n.y + n.h + pad);
+  if (!blocked) return target;
+  const candidates = [];
+  let prev = 2;
+  for (const n of nodes) {
+    const hi = n.y - pad;
+    if (hi > prev + 0.5) candidates.push((prev + hi) / 2);
+    prev = n.y + n.h + pad;
+  }
+  candidates.push(prev + 4);
+  let best = candidates[0];
+  let score = Infinity;
+  for (const y of candidates) {
+    const s = Math.abs(y - target);
+    if (s < score) { score = s; best = y; }
+  }
+  return best;
+}
+
+function gutterX(fromStage, toStage, slot) {
+  const left = COL[fromStage].x + COL[fromStage].w;
+  const right = COL[toStage].x;
+  const center = (left + right) / 2 + (slot - 3) * 3;
+  return Math.max(left + 6, Math.min(right - 6, center));
+}
+
+function curve(a, b, edgeIndex) {
+  const y1 = a.y + a.h / 2;
+  const y2 = b.y + b.h / 2;
+  const slot = (edgeIndex || 0) % 7;
+  if (a.stage === b.stage) {
+    if (a.stage === "settle") {
+      const x = Math.min(BOARD_W - 44, a.x + a.w + 22);
+      return pathFromPoints([[a.x + a.w, y1], [x, y1], [x, y2], [b.x + b.w, y2]]);
+    }
+    const prev = STAGE_ORDER[STAGE_ORDER.indexOf(a.stage) - 1];
+    const gx = gutterX(prev, a.stage, slot);
+    return pathFromPoints([[a.x, y1], [gx, y1], [gx, y2], [b.x, y2]]);
+  }
+  const ia = STAGE_ORDER.indexOf(a.stage);
+  const ib = STAGE_ORDER.indexOf(b.stage);
+  const dir = ia < ib ? 1 : -1;
+  const xStart = dir > 0 ? a.x + a.w : a.x;
+  const xEnd = dir > 0 ? b.x : b.x + b.w;
+  const pts = [[xStart, y1]];
+  let cy = y1;
+  for (let i = ia; i !== ib; i += dir) {
+    const fromS = STAGE_ORDER[i];
+    const toS = STAGE_ORDER[i + dir];
+    const gx = gutterX(dir > 0 ? fromS : toS, dir > 0 ? toS : fromS, slot);
+    const nextIsTarget = i + dir === ib;
+    const span = Math.abs(ib - ia);
+    const t = Math.abs(i + dir - ia) / span;
+    const ideal = y1 + (y2 - y1) * t;
+    const nextY = nextIsTarget ? y2 : laneY(toS, ideal);
+    pts.push([gx, cy]);
+    pts.push([gx, nextY]);
+    cy = nextY;
+  }
+  pts.push([xEnd, cy]);
+  return pathFromPoints(pts);
+}
+
+function renderColumns() {
+  const bar = document.getElementById("colbar");
+  const pct = (px) => (px / BOARD_W * 100).toFixed(4) + "%";
+  const parts = ['<div style="width:' + pct(COL.what.x) + ';flex:none"></div>'];
+  for (let i = 0; i < STAGES.length; i++) {
+    const s = STAGES[i];
+    if (i > 0) {
+      const gap = COL[s.id].x - (COL[STAGES[i - 1].id].x + COL[STAGES[i - 1].id].w);
+      parts.push('<div style="width:' + pct(gap) + ';flex:none"></div>');
+    }
+    const on = state.pin && state.pin.type === "stage" && state.pin.id === s.id;
+    parts.push('<button type="button" style="width:' + pct(COL[s.id].w) + '" data-stage="' + s.id + '" title="' + escapeXml(s.label + "。" + s.sub) + '"' + (on ? ' class="on"' : "") + ">" + s.label + "<small>" + s.sub + "</small></button>");
+  }
+  bar.innerHTML = parts.join("");
+}
+
+function renderSidebar() {
+  const stageHost = document.getElementById("stage-list");
+  stageHost.innerHTML = STAGES.map(s => {
+    const on = state.pin && state.pin.type === "stage" && state.pin.id === s.id;
+    return '<button type="button" class="stage-btn' + (on ? " on" : "") + '" data-stage="' + s.id + '" title="' + escapeXml(s.label + "。" + s.sub) + '">' + s.label + "</button>";
+  }).join("");
+  const host = document.getElementById("flow-list");
+  let html = "";
+  for (const group of ["funds", "markets", "securities"]) {
+    const items = FLOWS.filter(f => f.group === group);
+    const allOn = items.every(f => state.flows.has(f.id));
+    html += '<div class="group-label"><span class="swatch" style="background:' + GROUP_COLOR[group] + '"></span>' + GROUP_LABEL[group] + "</div>";
+    html += '<label class="flow"><input type="checkbox" data-group="' + group + '"' + (allOn ? " checked" : "") + ">この区分をすべて</label>";
+    for (const f of items) {
+      html += '<label class="flow"><input type="checkbox" data-flow="' + f.id + '"' + (state.flows.has(f.id) ? " checked" : "") + ">" + f.label + "</label>";
+    }
+  }
+  host.innerHTML = html;
+}
+
+function flowCoins(d) {
+  let coins = "";
+  for (let i = 0; i < 3; i++) {
+    const delay = (i * 0.85).toFixed(2);
+    coins += '<circle r="4.2" fill="#f6c445" stroke="#92400e" stroke-width="1" style="offset-path:path(\'' + d + '\');offset-rotate:0deg;animation:coinflow 2.6s linear ' + delay + 's infinite"></circle>';
+  }
+  return '<g class="coin">' + coins + "</g>";
+}
+
+function renderSvg() {
+  const spot = activeSpotlight();
+  const h = model.height;
+  let body = "";
+  for (const s of STAGES) {
+    const c = COL[s.id];
+    const fill = s.id === "settle" ? "#e7f0fa" : s.id === "clear" ? "#e7f4f2" : s.id === "match" ? "#f3f5f8" : "#fbfcfe";
+    body += '<rect x="' + c.x + '" y="0" width="' + c.w + '" height="' + h + '" fill="' + fill + '"></rect>';
+  }
+  const otc = model.byId.otc;
+  const kabu = model.byId.kabu;
+  const divY = (otc.y + otc.h + kabu.y) / 2;
+  body += '<text x="16" y="' + (divY + 4) + '" font-size="11" fill="#64748b">証券</text>';
+  body += '<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="context-stroke"></path></marker></defs>';
+
+  let edgeIndex = 0;
+  for (const e of model.edges) {
+    const index = edgeIndex++;
+    if (!edgeVisible(e)) continue;
+    const a = model.byId[e.from], b = model.byId[e.to];
+    const hot = edgeHot(e);
+    const dim = spot && !hot;
+    const color = edgeColor(e);
+    const width = hot ? 2.6 : 1.35;
+    const dash = e.kind === "dvp" || e.kind === "report" ? ' stroke-dasharray="5 4"' : "";
+    const d = curve(a, b, index);
+    const opacity = dim ? 0.08 : (hot || !spot ? (hot ? 0.95 : 0.55) : 0.55);
+    body += '<g data-edge="' + e.from + "-" + e.to + '">';
+    body += '<path d="' + d + '" stroke="transparent" stroke-width="12" fill="none"></path>';
+    body += '<path class="edge' + (dim ? " dim" : "") + '" d="' + d + '" stroke="' + color + '" stroke-width="' + width + '" opacity="' + opacity + '" marker-end="url(#arrow)"' + dash + "></path>";
+    if (hot && state.pin && state.coins && e.kind !== "report") body += flowCoins(d);
+    body += "</g>";
+  }
+
+  for (const n of model.nodes) {
+    if (!nodeShown(n)) continue;
+    const hot = !spot || nodeHot(n);
+    const fmi = n.fmi;
+    const fill = fmi ? "#e5f1fb" : "#ffffff";
+    const groupStroke = n.stage === "what" ? GROUP_COLOR[model.flowMap[n.id].group] : "";
+    const stroke = groupStroke || (hot && spot ? (fmi ? "#1d4ed8" : "#0f172a") : (fmi ? "#1d6fbf" : "#94a3b8"));
+    const lines = n.title.split("\n");
+    const textColor = fmi ? "#0d3f72" : "#1c2834";
+    let text = "";
+    const block = lines.length * 16 + (n.sub ? 14 : 0);
+    let ty = n.y + (n.h - block) / 2 + 12;
+    for (const line of lines) {
+      text += '<text x="' + (n.x + n.w / 2) + '" y="' + ty + '" text-anchor="middle" font-size="13" font-weight="700" fill="' + textColor + '">' + escapeXml(line) + "</text>";
+      ty += 16;
+    }
+    if (n.sub) {
+      text += '<text x="' + (n.x + n.w / 2) + '" y="' + ty + '" text-anchor="middle" font-size="11" fill="#52606d">' + escapeXml(n.sub) + "</text>";
+    }
+    body += '<g class="node' + (n.stage === "what" ? " what" : "") + (hot ? "" : " dim") + (hot && spot ? " hot" : "") + '" data-node="' + n.id + '" aria-label="' + escapeXml(hintForNode(n.id)) + '">'
+      + '<rect class="shape" x="' + n.x + '" y="' + n.y + '" width="' + n.w + '" height="' + n.h + '" rx="8" fill="' + fill + '" stroke="' + stroke + '"></rect>'
+      + text + "</g>";
+  }
+
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + BOARD_W + " " + h + '" role="img" aria-label="わが国の決済システムの鳥瞰図">'
+    + body + "</svg>";
+  document.getElementById("svghost").innerHTML = svg;
+}
+
+function escapeXml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function hintForNode(id) {
+  if (NODE_NOTES[id]) return NODE_NOTES[id];
+  const flow = model.flowMap[id];
+  if (flow && flow.note) return flow.note;
+  const n = model.byId[id];
+  return n ? n.title.replace(/\n/g, "") : "";
+}
+
+function hintForEdge(e) {
+  const a = model.byId[e.from].title.replace(/\n/g, "");
+  const b = model.byId[e.to].title.replace(/\n/g, "");
+  const flows = e.flows.map(id => model.flowMap[id].label).join("、");
+  const kind = e.kind === "dvp" ? "証券の受渡しと代金の支払いを同時に行う。" : (e.kind === "report" ? "資金の受渡しではなく、取引情報の報告である。" : "");
+  return a + "から" + b + "へ。" + kind + "対象は" + flows + "。";
+}
+
+function nodeLabel(id) {
+  const n = model.byId[id];
+  if (!n) return id;
+  return n.title.replace(/\n/g, "") + (n.sub ? "（" + n.sub + "）" : "");
+}
+
+function linkHtml(links) {
+  if (!links || !links.length) return "";
+  const seen = new Set();
+  const items = [];
+  for (const link of links) {
+    if (!link || seen.has(link.href)) continue;
+    seen.add(link.href);
+    items.push('<a href="' + escapeXml(link.href) + '" target="_blank" rel="noopener noreferrer">' + escapeXml(link.label) + "</a>");
+  }
+  return items.length ? '<p class="links">' + items.join("<br>") + "</p>" : "";
+}
+
+function detailsBlock(title, paras, links) {
+  const body = (paras || []).map(p => "<p>" + escapeXml(p) + "</p>").join("") + linkHtml(links);
+  return "<details><summary>" + escapeXml(title) + "</summary><div class=\"acc-body\">" + body + "</div></details>";
+}
+
+function relatedIds(focus) {
+  if (!focus) return [];
+  if (focus.type === "flow") {
+    const seen = new Set([focus.id]);
+    const ids = [];
+    for (const p of pathsOf(focus.id)) {
+      for (const id of p.nodes) {
+        if (seen.has(id)) continue;
+        seen.add(id);
+        ids.push(id);
+      }
+    }
+    return ids.sort((a, b) => STAGE_ORDER.indexOf(model.byId[a].stage) - STAGE_ORDER.indexOf(model.byId[b].stage) || model.byId[a].y - model.byId[b].y);
+  }
+  if (focus.type === "node") {
+    const seen = new Set([focus.id]);
+    const ids = [];
+    for (const e of model.edges) {
+      if (!edgeVisible(e)) continue;
+      const other = e.from === focus.id ? e.to : (e.to === focus.id ? e.from : null);
+      if (!other || seen.has(other)) continue;
+      seen.add(other);
+      ids.push(other);
+    }
+    return ids.sort((a, b) => STAGE_ORDER.indexOf(model.byId[a].stage) - STAGE_ORDER.indexOf(model.byId[b].stage) || model.byId[a].y - model.byId[b].y);
+  }
+  if (focus.type === "stage") {
+    return model.nodes.filter(n => n.stage === focus.id && nodeShown(n)).map(n => n.id);
+  }
+  return [];
+}
+
+function topicsFor(ids) {
+  const set = new Set(ids);
+  return TOPICS.filter(t => t.nodes.some(id => set.has(id)));
+}
+
+function renderContext() {
+  const host = document.getElementById("context");
+  const focus = state.pin;
+  if (!focus) {
+    let html = "<h2>レポートにある最近の動き</h2>";
+    html += "<p class=\"lead\">箱をクリックすると、その箱につながる仕組みを上に、レポートの最近の動きを下に出します。項目名を開くと文章が読めます。</p>";
+    for (const t of TOPICS) html += detailsBlock(t.title, t.paras, TOPIC_LINKS[t.id]);
+    host.innerHTML = html;
+    host.scrollTop = 0;
+    document.getElementById("side-right").scrollTop = 0;
+    return;
+  }
+  const ids = relatedIds(focus);
+  const selfId = focus.type === "stage" ? null : focus.id;
+  const title = focus.type === "stage"
+    ? STAGES.find(s => s.id === focus.id).label
+    : nodeLabel(focus.id);
+  const blurb = selfId ? hintForNode(selfId) : STAGES.find(s => s.id === focus.id).sub;
+  let html = "<h2>" + escapeXml(title) + "</h2>";
+  html += "<p class=\"lead\">" + escapeXml(blurb) + "</p>";
+  html += "<h3>つながる仕組み</h3>";
+  if (!ids.length) {
+    html += "<p class=\"lead\">表示中の条件では、この箱から先の線がありません。</p>";
+  }
+  for (const id of ids) {
+    const paras = [];
+    const note = hintForNode(id);
+    if (note) paras.push(note);
+    html += detailsBlock(nodeLabel(id), paras, NODE_LINKS[id]);
+  }
+  const topicIds = selfId ? ids.concat(selfId) : ids;
+  const topics = topicsFor(topicIds);
+  html += "<h3>レポートにある最近の動き</h3>";
+  if (!topics.length) {
+    html += "<p class=\"lead\">この経路について、レポートは最近の動きを独立した節としては置いていません。</p>";
+    html += linkHtml([REPORT_LINK]);
+  } else {
+    for (const t of topics) html += detailsBlock(t.title, t.paras, TOPIC_LINKS[t.id]);
+  }
+  host.innerHTML = html;
+  host.scrollTop = 0;
+  const pane = document.getElementById("side-right");
+  if (pane) pane.scrollTop = 0;
+}
+
+function placeTip(ev, text) {
+  const tip = document.getElementById("tip");
+  if (!text) {
+    tip.hidden = true;
+    return;
+  }
+  tip.hidden = false;
+  tip.textContent = text;
+  const pad = 12;
+  const w = tip.offsetWidth;
+  const h = tip.offsetHeight;
+  let x = ev.clientX + 14;
+  let y = ev.clientY + 16;
+  if (x + w > window.innerWidth - pad) x = ev.clientX - w - 10;
+  if (y + h > window.innerHeight - pad) y = ev.clientY - h - 10;
+  tip.style.left = Math.max(pad, x) + "px";
+  tip.style.top = Math.max(pad, y) + "px";
+}
+
+const globe = {
+  yaw: 0.85,
+  pitch: 0.22,
+  vy: 0,
+  vp: 0,
+  dragging: false,
+  lastX: 0,
+  lastY: 0,
+  moved: 0,
+  raf: 0,
+  hits: [],
+  screen: {},
+  pos: null
+};
+const GLOBE_CAM = 3.55;
+const GLOBE_R = 1.22;
+
+function primaryGroup(id) {
+  const flow = model.flowMap[id];
+  if (flow) return flow.group;
+  const counts = { funds: 0, markets: 0, securities: 0 };
+  for (const e of model.edges) {
+    if (e.from !== id && e.to !== id) continue;
+    for (const f of e.flows) counts[model.flowMap[f].group]++;
+  }
+  let best = "funds";
+  let n = -1;
+  for (const g of ["funds", "markets", "securities"]) {
+    if (counts[g] > n) { n = counts[g]; best = g; }
+  }
+  return best;
+}
+
+function layoutGlobe() {
+  const radius = { what: 1.08, match: 0.82, clear: 0.58, settle: 0.4 };
+  const sector = { funds: -2.05, markets: 0.2, securities: 2.35 };
+  const buckets = {
+    funds: { what: [], match: [], clear: [], settle: [] },
+    markets: { what: [], match: [], clear: [], settle: [] },
+    securities: { what: [], match: [], clear: [], settle: [] }
+  };
+  const pos = { boj: { x: 0, y: 0, z: 0, r: 0 } };
+  for (const n of model.nodes) {
+    if (n.id === "boj") continue;
+    buckets[primaryGroup(n.id)][n.stage].push(n.id);
+  }
+  for (const g of ["funds", "markets", "securities"]) {
+    for (const stage of STAGE_ORDER) {
+      const ids = buckets[g][stage];
+      const count = ids.length;
+      const step = count > 1 ? Math.min(0.34, 1.45 / (count - 1)) : 0;
+      ids.forEach((id, i) => {
+        const phi = sector[g] + (i - (count - 1) / 2) * step;
+        const theta = count === 1 ? 1.2 : 0.48 + ((i + 0.5) / count) * 2.2;
+        const r = radius[stage];
+        pos[id] = {
+          x: r * Math.sin(theta) * Math.cos(phi),
+          y: r * Math.cos(theta),
+          z: r * Math.sin(theta) * Math.sin(phi),
+          r: r
+        };
+      });
+    }
+  }
+  const ids = Object.keys(pos).filter(id => id !== "boj");
+  for (let iter = 0; iter < 16; iter++) {
+    for (let i = 0; i < ids.length; i++) {
+      for (let j = i + 1; j < ids.length; j++) {
+        const a = pos[ids[i]];
+        const b = pos[ids[j]];
+        let dx = a.x - b.x;
+        let dy = a.y - b.y;
+        let dz = a.z - b.z;
+        const d = Math.hypot(dx, dy, dz) || 1e-6;
+        const min = Math.abs(a.r - b.r) < 0.05 ? 0.2 : 0.12;
+        if (d >= min) continue;
+        const push = (min - d) * 0.5;
+        dx /= d; dy /= d; dz /= d;
+        a.x += dx * push; a.y += dy * push; a.z += dz * push;
+        b.x -= dx * push; b.y -= dy * push; b.z -= dz * push;
+        const na = Math.hypot(a.x, a.y, a.z) || 1;
+        const nb = Math.hypot(b.x, b.y, b.z) || 1;
+        a.x *= a.r / na; a.y *= a.r / na; a.z *= a.r / na;
+        b.x *= b.r / nb; b.y *= b.r / nb; b.z *= b.r / nb;
+      }
+    }
+  }
+  globe.pos = pos;
+}
+
+function rotPoint(p) {
+  const cy = Math.cos(globe.yaw);
+  const sy = Math.sin(globe.yaw);
+  const x1 = p.x * cy + p.z * sy;
+  const z1 = -p.x * sy + p.z * cy;
+  const cp = Math.cos(globe.pitch);
+  const sp = Math.sin(globe.pitch);
+  return { x: x1, y: p.y * cp - z1 * sp, z: p.y * sp + z1 * cp };
+}
+
+function projectAt(p, cx, cy, focal) {
+  const q = rotPoint(p);
+  const k = focal / (GLOBE_CAM - q.z);
+  return { sx: cx + q.x * k, sy: cy - q.y * k, z: q.z, k: k };
+}
+
+function resizeGlobe() {
+  const canvas = document.getElementById("globe");
+  const wrap = document.getElementById("globe-wrap");
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const w = wrap.clientWidth || 800;
+  const h = wrap.clientHeight || 640;
+  canvas.width = Math.max(2, Math.floor(w * dpr));
+  canvas.height = Math.max(2, Math.floor(h * dpr));
+  globe.dpr = dpr;
+  globe.cssW = w;
+  globe.cssH = h;
+}
+
+function drawGraticule(ctx, cx, cy, focal, back) {
+  ctx.save();
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = back ? "rgba(120, 146, 170, 0.28)" : "rgba(90, 122, 154, 0.55)";
+  const meridians = 12;
+  const parallels = 6;
+  for (let m = 0; m < meridians; m++) {
+    const lon = -Math.PI + (Math.PI * 2 * m) / meridians;
+    ctx.beginPath();
+    let pen = false;
+    for (let i = 0; i <= 36; i++) {
+      const lat = -Math.PI / 2 + (Math.PI * i) / 36;
+      const cl = Math.cos(lat);
+      const q = rotPoint({
+        x: GLOBE_R * cl * Math.cos(lon),
+        y: GLOBE_R * Math.sin(lat),
+        z: GLOBE_R * cl * Math.sin(lon)
+      });
+      const show = back ? q.z < 0.02 : q.z >= -0.02;
+      if (!show) { pen = false; continue; }
+      const k = focal / (GLOBE_CAM - q.z);
+      const x = cx + q.x * k;
+      const y = cy - q.y * k;
+      if (!pen) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      pen = true;
+    }
+    ctx.stroke();
+  }
+  for (let p = 1; p < parallels; p++) {
+    const lat = -Math.PI / 2 + (Math.PI * p) / parallels;
+    const cl = Math.cos(lat);
+    ctx.beginPath();
+    let pen = false;
+    for (let j = 0; j <= 64; j++) {
+      const lon = -Math.PI + (Math.PI * 2 * j) / 64;
+      const q = rotPoint({
+        x: GLOBE_R * cl * Math.cos(lon),
+        y: GLOBE_R * Math.sin(lat),
+        z: GLOBE_R * cl * Math.sin(lon)
+      });
+      const show = back ? q.z < 0.02 : q.z >= -0.02;
+      if (!show) { pen = false; continue; }
+      const k = focal / (GLOBE_CAM - q.z);
+      const x = cx + q.x * k;
+      const y = cy - q.y * k;
+      if (!pen) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      pen = true;
+    }
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function edgeSamples(a, b) {
+  const ra = a.r;
+  const rb = b.r;
+  if (ra < 0.05 || rb < 0.05) return [a, b];
+  const steps = 12;
+  const pts = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const x = a.x + (b.x - a.x) * t;
+    const y = a.y + (b.y - a.y) * t;
+    const z = a.z + (b.z - a.z) * t;
+    const mag = Math.hypot(x, y, z) || 1;
+    const target = (ra + (rb - ra) * t) * 1.03;
+    pts.push({ x: x * target / mag, y: y * target / mag, z: z * target / mag, r: target });
+  }
+  return pts;
+}
+
+function traceProjected(ctx, samples, cx, cy, focal) {
+  ctx.beginPath();
+  samples.forEach((p, i) => {
+    const q = projectAt(p, cx, cy, focal);
+    if (i === 0) ctx.moveTo(q.sx, q.sy); else ctx.lineTo(q.sx, q.sy);
+  });
+  return projectAt(samples[samples.length - 1], cx, cy, focal);
+}
+
+function fillArrow(ctx, x1, y1, x2, y2) {
+  const ang = Math.atan2(y2 - y1, x2 - x1);
+  const len = 8;
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - len * Math.cos(ang - 0.45), y2 - len * Math.sin(ang - 0.45));
+  ctx.lineTo(x2 - len * Math.cos(ang + 0.45), y2 - len * Math.sin(ang + 0.45));
+  ctx.closePath();
+  ctx.fill();
+}
+
+function chipSize(ctx, node) {
+  ctx.font = "700 12px \"Yu Gothic UI\", \"Yu Gothic\", Meiryo, sans-serif";
+  const lines = node.title.split("\n");
+  let w = 0;
+  for (const line of lines) w = Math.max(w, ctx.measureText(line).width);
+  ctx.font = "11px \"Yu Gothic UI\", \"Yu Gothic\", Meiryo, sans-serif";
+  if (node.sub) w = Math.max(w, ctx.measureText(node.sub).width);
+  const h = 10 + lines.length * 15 + (node.sub ? 14 : 0);
+  return { w: Math.min(172, Math.max(74, w + 18)), h: h, lines: lines };
+}
+
+function drawChip(ctx, node, sx, sy, size, hot, spot) {
+  const x = sx - size.w / 2;
+  const y = sy - size.h / 2;
+  const fmi = node.fmi;
+  ctx.beginPath();
+  const r = 8;
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + size.w, y, x + size.w, y + size.h, r);
+  ctx.arcTo(x + size.w, y + size.h, x, y + size.h, r);
+  ctx.arcTo(x, y + size.h, x, y, r);
+  ctx.arcTo(x, y, x + size.w, y, r);
+  ctx.closePath();
+  const whatNode = node.stage === "what";
+  ctx.fillStyle = fmi ? "#e5f1fb" : "#ffffff";
+  ctx.strokeStyle = whatNode ? GROUP_COLOR[model.flowMap[node.id].group] : (hot && spot ? (fmi ? "#1d4ed8" : "#0f172a") : (fmi ? "#1d6fbf" : "#94a3b8"));
+  ctx.lineWidth = whatNode ? (hot && spot ? 2.8 : 2.2) : (hot && spot ? 2.2 : 1.3);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = fmi ? "#0d3f72" : "#1c2834";
+  ctx.font = "700 12px \"Yu Gothic UI\", \"Yu Gothic\", Meiryo, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  const block = size.lines.length * 15 + (node.sub ? 14 : 0);
+  let ty = sy - block / 2 + 7;
+  for (const line of size.lines) {
+    ctx.fillText(line, sx, ty);
+    ty += 15;
+  }
+  if (node.sub) {
+    ctx.font = "11px \"Yu Gothic UI\", \"Yu Gothic\", Meiryo, sans-serif";
+    ctx.fillStyle = "#52606d";
+    ctx.fillText(node.sub, sx, ty - 1);
+  }
+}
+
+function drawGlobe() {
+  const canvas = document.getElementById("globe");
+  if (!globe.pos) layoutGlobe();
+  if (!globe.cssW) resizeGlobe();
+  const ctx = canvas.getContext("2d");
+  const dpr = globe.dpr || 1;
+  const w = globe.cssW;
+  const h = globe.cssH;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+  const cx = w / 2;
+  const cy = h / 2 - 8;
+  const focal = Math.min(w, h) * 0.9;
+  const shellR = focal * GLOBE_R / Math.sqrt(GLOBE_CAM * GLOBE_CAM - GLOBE_R * GLOBE_R);
+  const disk = ctx.createRadialGradient(cx - shellR * 0.25, cy - shellR * 0.28, shellR * 0.15, cx, cy, shellR);
+  disk.addColorStop(0, "#ffffff");
+  disk.addColorStop(0.72, "#e7f0fa");
+  disk.addColorStop(1, "#c5d7ea");
+  ctx.beginPath();
+  ctx.arc(cx, cy, shellR, 0, Math.PI * 2);
+  ctx.fillStyle = disk;
+  ctx.fill();
+  ctx.strokeStyle = "#7f9bb6";
+  ctx.lineWidth = 1.4;
+  ctx.stroke();
+
+  drawGraticule(ctx, cx, cy, focal, true);
+
+  globe.coinLines = [];
+  const spot = activeSpotlight();
+  const projected = {};
+  globe.screen = projected;
+  for (const n of model.nodes) {
+    if (!nodeShown(n)) continue;
+    projected[n.id] = projectAt(globe.pos[n.id], cx, cy, focal);
+  }
+
+  function drawEdges(back) {
+    model.edges.forEach((e) => {
+      if (!edgeVisible(e)) return;
+      if (!projected[e.from] || !projected[e.to]) return;
+      const samples = edgeSamples(globe.pos[e.from], globe.pos[e.to]);
+      const mid = samples[Math.floor(samples.length / 2)];
+      const mz = rotPoint(mid).z;
+      if (back ? mz >= 0 : mz < 0) return;
+      const hot = edgeHot(e);
+      const dim = spot && !hot;
+      ctx.save();
+      ctx.lineWidth = hot ? 2.4 : 1.25;
+      ctx.strokeStyle = edgeColor(e);
+      ctx.globalAlpha = dim ? 0.08 : (hot ? 0.95 : 0.62);
+      if (e.kind === "dvp" || e.kind === "report") ctx.setLineDash([5, 4]);
+      const end = traceProjected(ctx, samples, cx, cy, focal);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      if (!dim) {
+        const prev = projectAt(samples[Math.max(0, samples.length - 2)], cx, cy, focal);
+        ctx.fillStyle = edgeColor(e);
+        fillArrow(ctx, prev.sx, prev.sy, end.sx, end.sy);
+      }
+      ctx.restore();
+      if (!back && hot && state.pin && state.coins && e.kind !== "report") {
+        globe.coinLines.push(samples.map(p => projectAt(p, cx, cy, focal)));
+      }
+    });
+  }
+  drawEdges(true);
+  drawGraticule(ctx, cx, cy, focal, false);
+  drawEdges(false);
+
+  const labels = [];
+  const dots = [];
+  const labelCandidates = [];
+  for (const n of model.nodes) {
+    if (n.id === "boj" || !projected[n.id]) continue;
+    const p = projected[n.id];
+    const hot = !spot || nodeHot(n);
+    const dim = !!(spot && !hot);
+    const g = n.stage === "what" ? model.flowMap[n.id].group : primaryGroup(n.id);
+    dots.push({
+      id: n.id,
+      sx: p.sx,
+      sy: p.sy,
+      z: p.z,
+      r: dim ? 3 : (n.fmi ? 5.2 : 4.2),
+      alpha: dim ? 0.16 : (p.z > 0 ? 0.95 : 0.38),
+      color: GROUP_COLOR[g]
+    });
+    const pinned = spot && spot.type !== "stage" && n.id === spot.id;
+    const facing = pinned || (spot ? (hot && p.z > -0.45) : p.z > 0.18);
+    if (!facing) continue;
+    const size = chipSize(ctx, n);
+    const stageBias = n.stage === "what" ? 0.45 : n.stage === "match" ? 0.22 : n.stage === "clear" ? 0.08 : 0;
+    labelCandidates.push({
+      id: n.id,
+      node: n,
+      ax: p.sx,
+      ay: p.sy,
+      z: p.z,
+      score: p.z + stageBias,
+      w: size.w,
+      h: size.h,
+      size: size,
+      hot: hot && !!spot
+    });
+  }
+  labelCandidates.sort((a, b) => b.score - a.score);
+  const cap = spot ? labelCandidates.length : 9;
+  for (const lab of labelCandidates.slice(0, cap)) labels.push(lab);
+
+  for (const lab of labels) {
+    lab.ang = Math.atan2(lab.ay - cy, lab.ax - cx);
+    if (!isFinite(lab.ang)) lab.ang = 0;
+  }
+  labels.sort((a, b) => a.ang - b.ang);
+  if (labels.length > 1 && labels.length <= 8) {
+    let mid = 0;
+    const base = labels[0].ang;
+    for (const lab of labels) {
+      let a = lab.ang - base;
+      if (a < 0) a += Math.PI * 2;
+      if (a > Math.PI) a -= Math.PI * 2;
+      mid += base + a;
+    }
+    mid /= labels.length;
+    const span = Math.min(Math.PI * 1.35, Math.max(1.05, (labels.length - 1) * 0.62));
+    labels.forEach((lab, i) => {
+      lab.ang = mid - span / 2 + span * (i / (labels.length - 1));
+      lab.sx = cx + Math.cos(lab.ang) * (shellR + 40);
+      lab.sy = cy + Math.sin(lab.ang) * (shellR + 40) * 0.86;
+    });
+  } else {
+    const ringOf = new Array(labels.length).fill(0);
+    for (let i = 0; i < labels.length; i++) {
+      let ring = 0;
+      for (let j = 0; j < i; j++) {
+        let d = Math.abs(labels[i].ang - labels[j].ang);
+        d = Math.min(d, Math.PI * 2 - d);
+        if (ringOf[j] === ring && d < 0.58) ring = ringOf[j] + 1;
+      }
+      ringOf[i] = Math.min(ring, 2);
+      const rad = shellR + 26 + ringOf[i] * 58;
+      labels[i].sx = cx + Math.cos(labels[i].ang) * rad;
+      labels[i].sy = cy + Math.sin(labels[i].ang) * rad * 0.88;
+    }
+  }
+  for (const lab of labels) {
+    lab.sx = Math.max(lab.w / 2 + 6, Math.min(w - lab.w / 2 - 6, lab.sx));
+    lab.sy = Math.max(lab.h / 2 + 8, Math.min(h - lab.h / 2 - 36, lab.sy));
+  }
+
+  const boj = model.byId.boj;
+  const bojSize = chipSize(ctx, boj);
+  bojSize.w = Math.max(bojSize.w, 150);
+  const bojHot = !spot || nodeHot(boj);
+
+  globe.hits = [];
+  for (const d of dots) {
+    ctx.beginPath();
+    ctx.globalAlpha = d.alpha;
+    ctx.fillStyle = d.color;
+    ctx.arc(d.sx, d.sy, d.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    globe.hits.push({ id: d.id, x: d.sx - 11, y: d.sy - 11, w: 22, h: 22, z: d.z });
+  }
+  labels.sort((a, b) => a.z - b.z);
+  for (const lab of labels) {
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(71, 85, 105, 0.55)";
+    ctx.lineWidth = 1;
+    ctx.moveTo(lab.ax, lab.ay);
+    ctx.lineTo(lab.sx, lab.sy);
+    ctx.stroke();
+    drawChip(ctx, lab.node, lab.sx, lab.sy, lab.size, lab.hot, spot);
+    globe.hits.push({
+      id: lab.id,
+      x: lab.sx - lab.w / 2,
+      y: lab.sy - lab.h / 2,
+      w: lab.w,
+      h: lab.h,
+      z: lab.z + 2
+    });
+  }
+  if (projected.boj) {
+    ctx.fillStyle = "rgba(255,255,255,0.92)";
+    const pad = 8;
+    const bx = cx - bojSize.w / 2 - pad;
+    const by = cy - bojSize.h / 2 - pad;
+    ctx.beginPath();
+    ctx.roundRect(bx, by, bojSize.w + pad * 2, bojSize.h + pad * 2, 12);
+    ctx.fill();
+    drawChip(ctx, boj, cx, cy, bojSize, bojHot && !!spot, spot);
+    globe.hits.push({
+      id: "boj",
+      x: cx - bojSize.w / 2,
+      y: cy - bojSize.h / 2,
+      w: bojSize.w,
+      h: bojSize.h,
+      z: 10
+    });
+  }
+  for (const line of globe.coinLines) drawCoins(ctx, line);
+}
+
+function pickHit(x, y) {
+  let best = null;
+  for (const h of globe.hits) {
+    if (x < h.x || y < h.y || x > h.x + h.w || y > h.y + h.h) continue;
+    if (!best || h.z > best.z) best = h;
+  }
+  return best;
+}
+
+function hitFromEvent(ev) {
+  const rect = document.getElementById("globe").getBoundingClientRect();
+  return pickHit(ev.clientX - rect.left, ev.clientY - rect.top);
+}
+
+function coinsRunning() {
+  return state.coins && !!state.pin;
+}
+
+function drawCoins(ctx, pts) {
+  if (!coinsRunning() || pts.length < 2) return;
+  const seg = [];
+  let total = 0;
+  for (let i = 1; i < pts.length; i++) {
+    const len = Math.hypot(pts[i].sx - pts[i - 1].sx, pts[i].sy - pts[i - 1].sy);
+    seg.push(len);
+    total += len;
+  }
+  if (total < 8) return;
+  const now = performance.now() / 1000;
+  for (let k = 0; k < 3; k++) {
+    let dist = (((now / 2.6) + k / 3) % 1) * total;
+    let i = 1;
+    while (i < pts.length - 1 && dist > seg[i - 1]) {
+      dist -= seg[i - 1];
+      i++;
+    }
+    const sl = seg[i - 1] || 1;
+    const t = Math.max(0, Math.min(1, dist / sl));
+    const a = pts[i - 1];
+    const b = pts[i];
+    const x = a.sx + (b.sx - a.sx) * t;
+    const y = a.sy + (b.sy - a.sy) * t;
+    const z = a.z + (b.z - a.z) * t;
+    ctx.save();
+    ctx.globalAlpha = z < -0.05 ? 0.28 : 1;
+    ctx.beginPath();
+    ctx.fillStyle = "#f6c445";
+    ctx.strokeStyle = "#92400e";
+    ctx.lineWidth = 1;
+    ctx.arc(x, y, z < -0.05 ? 2.4 : 4.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+
+function globeTick() {
+  globe.raf = 0;
+  if (state.view !== "globe") return;
+  const moving = Math.abs(globe.vy) >= 0.0002 || Math.abs(globe.vp) >= 0.0002;
+  if (!globe.dragging && moving) {
+    globe.yaw += globe.vy;
+    globe.pitch = Math.max(-1.15, Math.min(1.15, globe.pitch + globe.vp));
+    globe.vy *= 0.92;
+    globe.vp *= 0.92;
+  } else if (!globe.dragging) {
+    globe.vy = 0;
+    globe.vp = 0;
+  }
+  if (coinsRunning() || moving) drawGlobe();
+  if (coinsRunning() || Math.abs(globe.vy) >= 0.0002 || Math.abs(globe.vp) >= 0.0002) {
+    globe.raf = requestAnimationFrame(globeTick);
+  }
+}
+
+function applyView() {
+  const on = state.view === "globe";
+  document.getElementById("scroll-columns").hidden = on;
+  const wrap = document.getElementById("globe-wrap");
+  wrap.hidden = !on;
+  document.getElementById("tab-columns").classList.toggle("on", !on);
+  document.getElementById("tab-globe").classList.toggle("on", on);
+  document.getElementById("tab-columns").setAttribute("aria-selected", on ? "false" : "true");
+  document.getElementById("tab-globe").setAttribute("aria-selected", on ? "true" : "false");
+  const sel = document.getElementById("globe-flow");
+  if (sel && sel.value !== state.globeFlow) sel.value = state.globeFlow;
+  const nFlows = state.flows.size;
+  const base = "表示中の決済は " + nFlows + " 種類。";
+  const globeName = state.globeFlow ? model.flowMap[state.globeFlow].label : "すべての決済";
+  document.getElementById("topnote").textContent = on
+    ? "地球儀は" + globeName + "のつながりです。中心は日銀ネット当預系。左上で決済を選ぶと、そのネットワークだけが出ます。ドラッグで回転し、名前をクリックすると右の欄が開きます。"
+    : base + "左から右へ、取引・指図・照合、清算、決済の順。青い箱が、レポートの主要な金融市場インフラ。";
+  if (!on) {
+    if (globe.raf) cancelAnimationFrame(globe.raf);
+    globe.raf = 0;
+    return;
+  }
+  if (!globe.pos) layoutGlobe();
+  resizeGlobe();
+  drawGlobe();
+  if (coinsRunning() && !globe.raf) globe.raf = requestAnimationFrame(globeTick);
+}
+
+function pinNode(id) {
+  const node = model.byId[id];
+  if (!node) return;
+  if (node.stage === "what") {
+    state.pin = state.pin && state.pin.type === "flow" && state.pin.id === id ? null : { type: "flow", id };
+  } else {
+    state.pin = state.pin && state.pin.type === "node" && state.pin.id === id ? null : { type: "node", id };
+  }
+  state.hover = null;
+  render();
+}
+
+function fitBoard() {
+  const sc = document.getElementById("scroll-columns");
+  const board = document.getElementById("board");
+  if (!sc || !board) return;
+  if (document.documentElement.classList.contains("shot")) {
+    board.style.width = BOARD_W + "px";
+    sc.style.overflowX = "visible";
+    return;
+  }
+  sc.style.overflowX = "hidden";
+  const avail = sc.clientWidth;
+  if (avail < 720) {
+    board.style.width = "720px";
+    sc.style.overflowX = "auto";
+    return;
+  }
+  board.style.width = avail + "px";
+  if (sc.scrollHeight > sc.clientHeight + 1 && sc.clientWidth + 1 < board.getBoundingClientRect().width) {
+    const next = sc.clientWidth;
+    if (next < 720) {
+      board.style.width = "720px";
+      sc.style.overflowX = "auto";
+    } else {
+      board.style.width = next + "px";
+    }
+  }
+}
+
+function render() {
+  renderSidebar();
+  renderColumns();
+  renderSvg();
+  renderContext();
+  applyView();
+  fitBoard();
+}
+
+function setFold(side, open) {
+  const app = document.querySelector(".app");
+  app.classList.toggle(side === "left" ? "left-collapsed" : "right-collapsed", !open);
+  const btn = document.getElementById(side === "left" ? "fold-left" : "fold-right");
+  btn.setAttribute("aria-expanded", open ? "true" : "false");
+  const name = side === "left" ? "絞り込み" : "説明";
+  const label = open ? name + "を閉じる" : name + "を開く";
+  btn.title = label;
+  btn.setAttribute("aria-label", label);
+  requestAnimationFrame(() => {
+    fitBoard();
+    if (state.view === "globe") { resizeGlobe(); drawGlobe(); }
+  });
+}
+
+document.body.addEventListener("click", (ev) => {
+  if (ev.target.closest("#context")) return;
+  const stageBtn = ev.target.closest("[data-stage]");
+  if (stageBtn) {
+    const id = stageBtn.getAttribute("data-stage");
+    state.pin = state.pin && state.pin.type === "stage" && state.pin.id === id ? null : { type: "stage", id };
+    state.hover = null;
+    render();
+    return;
+  }
+  const nodeEl = ev.target.closest("[data-node]");
+  if (nodeEl) {
+    pinNode(nodeEl.getAttribute("data-node"));
+    return;
+  }
+  const edgeEl = ev.target.closest("[data-edge]");
+  if (edgeEl) {
+    const key = edgeEl.getAttribute("data-edge");
+    const e = model.edges.find(x => x.from + "-" + x.to === key);
+    if (e) {
+      const fid = e.flows.find(f => state.flows.has(f)) || e.flows[0];
+      state.pin = { type: "flow", id: fid };
+      render();
+    }
+  }
+});
+
+document.body.addEventListener("change", (ev) => {
+  const t = ev.target;
+  if (t.matches("[data-flow]")) {
+    const id = t.getAttribute("data-flow");
+    if (t.checked) state.flows.add(id); else state.flows.delete(id);
+    if (state.pin && state.pin.type === "flow" && !state.flows.has(state.pin.id)) state.pin = null;
+    render();
+  }
+  if (t.matches("[data-group]")) {
+    const group = t.getAttribute("data-group");
+    for (const f of FLOWS) if (f.group === group) {
+      if (t.checked) state.flows.add(f.id); else state.flows.delete(f.id);
+    }
+    if (state.pin && state.pin.type === "flow" && !state.flows.has(state.pin.id)) state.pin = null;
+    render();
+  }
+});
+
+document.getElementById("show-all").addEventListener("click", () => {
+  state.flows = new Set(FLOWS.map(f => f.id));
+  state.pin = null;
+  state.hover = null;
+  render();
+});
+document.getElementById("clear-pin").addEventListener("click", () => {
+  state.pin = null;
+  state.hover = null;
+  render();
+});
+
+document.getElementById("coin-switch").addEventListener("change", (ev) => {
+  state.coins = ev.target.checked;
+  render();
+});
+document.getElementById("globe-flow").addEventListener("change", (ev) => {
+  state.globeFlow = ev.target.value;
+  state.pin = state.globeFlow ? { type: "flow", id: state.globeFlow } : null;
+  state.hover = null;
+  render();
+});
+
+document.getElementById("fold-left").addEventListener("click", () => {
+  setFold("left", document.querySelector(".app").classList.contains("left-collapsed"));
+});
+document.getElementById("fold-right").addEventListener("click", () => {
+  setFold("right", document.querySelector(".app").classList.contains("right-collapsed"));
+});
+
+document.getElementById("tab-columns").addEventListener("click", () => {
+  state.view = "columns";
+  state.hover = null;
+  document.getElementById("tip").hidden = true;
+  render();
+});
+document.getElementById("tab-globe").addEventListener("click", () => {
+  state.view = "globe";
+  state.hover = null;
+  document.getElementById("tip").hidden = true;
+  render();
+});
+
+const globeCanvas = document.getElementById("globe");
+globeCanvas.addEventListener("pointerdown", (ev) => {
+  globe.dragging = true;
+  globe.moved = 0;
+  globe.lastX = ev.clientX;
+  globe.lastY = ev.clientY;
+  globe.vy = 0;
+  globe.vp = 0;
+  document.getElementById("globe-wrap").classList.add("dragging");
+  globeCanvas.setPointerCapture(ev.pointerId);
+});
+globeCanvas.addEventListener("pointermove", (ev) => {
+  if (globe.dragging) {
+    const dx = ev.clientX - globe.lastX;
+    const dy = ev.clientY - globe.lastY;
+    globe.moved += Math.abs(dx) + Math.abs(dy);
+    globe.lastX = ev.clientX;
+    globe.lastY = ev.clientY;
+    globe.vy = dx * 0.0085;
+    globe.vp = dy * 0.0085;
+    globe.yaw += globe.vy;
+    globe.pitch = Math.max(-1.15, Math.min(1.15, globe.pitch + globe.vp));
+    drawGlobe();
+    document.getElementById("tip").hidden = true;
+    return;
+  }
+  if (state.view !== "globe") return;
+  const hit = hitFromEvent(ev);
+  placeTip(ev, hit ? hintForNode(hit.id) : "");
+});
+globeCanvas.addEventListener("pointerup", (ev) => {
+  const wasDrag = globe.moved > 6;
+  globe.dragging = false;
+  document.getElementById("globe-wrap").classList.remove("dragging");
+  if (!wasDrag) {
+    const hit = hitFromEvent(ev);
+    if (hit) pinNode(hit.id);
+    else placeTip(ev, "");
+  } else if (Math.abs(globe.vy) > 0.0004 || Math.abs(globe.vp) > 0.0004) {
+    if (globe.raf) cancelAnimationFrame(globe.raf);
+    globe.raf = requestAnimationFrame(globeTick);
+  }
+});
+globeCanvas.addEventListener("pointerleave", () => {
+  if (!globe.dragging) document.getElementById("tip").hidden = true;
+});
+window.addEventListener("resize", () => {
+  fitBoard();
+  if (state.view !== "globe") return;
+  resizeGlobe();
+  drawGlobe();
+});
+
+document.getElementById("board").addEventListener("pointerover", (ev) => {
+  const nodeEl = ev.target.closest("[data-node]");
+  const edgeEl = ev.target.closest("[data-edge]");
+  if (nodeEl) {
+    placeTip(ev, hintForNode(nodeEl.getAttribute("data-node")));
+    return;
+  }
+  if (edgeEl) {
+    const key = edgeEl.getAttribute("data-edge");
+    const e = model.edges.find(x => x.from + "-" + x.to === key);
+    placeTip(ev, e ? hintForEdge(e) : "");
+    return;
+  }
+  placeTip(ev, "");
+});
+document.getElementById("board").addEventListener("pointermove", (ev) => {
+  const tip = document.getElementById("tip");
+  if (tip.hidden) return;
+  placeTip(ev, tip.textContent);
+});
+document.getElementById("board").addEventListener("pointerleave", () => {
+  document.getElementById("tip").hidden = true;
+});
+
+function fillGlobeSelect() {
+  const sel = document.getElementById("globe-flow");
+  let html = '<option value="">すべて</option>';
+  for (const group of ["funds", "markets", "securities"]) {
+    html += '<optgroup label="' + GROUP_LABEL[group] + '">';
+    for (const f of FLOWS) if (f.group === group) html += '<option value="' + f.id + '">' + f.label + "</option>";
+    html += "</optgroup>";
+  }
+  sel.innerHTML = html;
+  if (state.globeFlow && !FLOWS.some(f => f.id === state.globeFlow)) state.globeFlow = "";
+  sel.value = state.globeFlow;
+}
+
+fillGlobeSelect();
+document.getElementById("coin-switch").checked = state.coins;
+if (state.view === "globe" && state.globeFlow && !params.get("pin")) {
+  state.pin = { type: "flow", id: state.globeFlow };
+}
+render();
+if (params.get("panels") === "closed") {
+  setFold("left", false);
+  setFold("right", false);
+}
+
+if (params.get("selftest") === "1") {
+  const lines = model.issues.slice();
+  for (const f of FLOWS) {
+    const paths = pathsOf(f.id);
+    if (!paths.length) lines.push("no path " + f.id);
+    else lines.push(f.id + " :: " + paths.map(p => p.nodes.join(">")).join(" | "));
+  }
+  document.querySelector('[data-node="zengin"]').dispatchEvent(new PointerEvent("pointerover", { bubbles: true, clientX: 40, clientY: 40 }));
+  lines.push("TIP " + document.getElementById("tip").textContent);
+  if (document.querySelector("svg > title")) lines.push("svg title remains");
+  document.querySelector('[data-node="furikomi"]').dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  const furikomiText = document.getElementById("context").innerText.replace(/\s+/g, " ");
+  lines.push("CLICK furikomi :: " + furikomiText.slice(0, 240));
+  if (furikomiText.indexOf("資金移動業者 → 日銀") !== -1) lines.push("bad shikin link");
+  if (!document.querySelector(".coin circle")) lines.push("no coin motion");
+  if (document.querySelector('[data-edge="otc-ddrj"] .coin')) lines.push("report edge animated");
+  const sc = document.getElementById("scroll-columns");
+  lines.push("SCROLL " + sc.clientWidth + " " + sc.scrollWidth);
+  if (sc.scrollWidth > sc.clientWidth + 2) lines.push("horizontal overflow");
+  document.querySelector('[data-node="boj"]').dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  lines.push("CLICK boj :: " + document.getElementById("context").innerText.replace(/\s+/g, " ").slice(0, 180));
+  document.querySelector('[data-stage="settle"]').dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  lines.push("CLICK settle :: " + document.getElementById("context").innerText.replace(/\s+/g, " ").slice(0, 180));
+  if (document.getElementById("detail")) lines.push("detail remains");
+  document.getElementById("fold-left").click();
+  if (!document.querySelector(".app").classList.contains("left-collapsed")) lines.push("left fold failed");
+  if (document.getElementById("side-left").getBoundingClientRect().width > 1) lines.push("left body still shown");
+  document.getElementById("fold-right").click();
+  if (!document.querySelector(".app").classList.contains("right-collapsed")) lines.push("right fold failed");
+  if (document.getElementById("side-right").getBoundingClientRect().width > 1) lines.push("right body still shown");
+  if (!document.querySelector("header h1")) lines.push("header missing");
+  const foot = document.querySelector("footer");
+  if (!foot) lines.push("footer missing");
+  else {
+    const footText = foot.innerText;
+    if (footText.indexOf("決済システムレポート") === -1) lines.push("footer source missing");
+    if (footText.indexOf("AI") === -1) lines.push("footer disclaimer missing");
+    const pdf = foot.querySelector("a");
+    if (!pdf || pdf.getAttribute("href") !== "https://www.boj.or.jp/research/brp/psr/data/psr240910.pdf") lines.push("footer pdf missing");
+  }
+  const kokkoStroke = document.querySelector('[data-node="kokko"] rect.shape');
+  if (!kokkoStroke || kokkoStroke.getAttribute("stroke") !== "#0f766e") lines.push("kokko stroke " + (kokkoStroke && kokkoStroke.getAttribute("stroke")));
+  if (document.querySelector('[data-node="kokko"] rect:not(.shape)')) lines.push("what bar remains");
+  const closedIcon = document.getElementById("fold-left");
+  if (getComputedStyle(closedIcon).color === "rgb(255, 255, 255)") lines.push("closed icon white");
+  const nOpt = document.querySelectorAll("#globe-flow option").length;
+  if (nOpt !== FLOWS.length + 1) lines.push("globe options " + nOpt);
+  document.getElementById("fold-left").click();
+  document.getElementById("fold-right").click();
+  if (document.getElementById("side-left").getBoundingClientRect().width < 200) lines.push("left stayed closed");
+  document.getElementById("coin-switch").click();
+  if (state.coins) lines.push("coins switch stayed on");
+  if (document.querySelector(".coin")) lines.push("coins stayed");
+  document.getElementById("coin-switch").click();
+  if (!state.coins) lines.push("coins switch stayed off");
+  if (params.get("view") === "globe") {
+    state.view = "globe";
+    state.pin = null;
+    render();
+    const b = globe.pos.boj;
+    if (b.x || b.y || b.z) lines.push("boj not origin");
+    if (Object.keys(globe.pos).length !== model.nodes.length) lines.push("pos count " + Object.keys(globe.pos).length);
+    const canvas = document.getElementById("globe");
+    if (canvas.clientWidth < 200) lines.push("canvas narrow " + canvas.clientWidth + "x" + canvas.clientHeight);
+    globe.yaw = 0.4;
+    globe.pitch = 0.2;
+    drawGlobe();
+    const zx1 = globe.screen.zengin && globe.screen.zengin.sx;
+    globe.yaw += 1.15;
+    drawGlobe();
+    const zx2 = globe.screen.zengin && globe.screen.zengin.sx;
+    if (zx1 == null || Math.abs(zx1 - zx2) < 12) lines.push("rotate stuck " + zx1 + " -> " + zx2);
+    const hit = pickHit(canvas.clientWidth / 2, canvas.clientHeight / 2 - 8);
+    if (!hit || hit.id !== "boj") lines.push("center hit " + (hit && hit.id));
+    const shikinBoj = model.edges.some(e => (e.from === "shikin" && e.to === "boj") || (e.from === "boj" && e.to === "shikin"));
+    if (shikinBoj) lines.push("invented shikin-boj");
+    const ddrjBoj = model.edges.some(e => (e.from === "ddrj" && e.to === "boj") || (e.from === "boj" && e.to === "ddrj"));
+    if (ddrjBoj) lines.push("invented ddrj-boj");
+    pinNode("kokko");
+    const ctxText = document.getElementById("context").innerText.replace(/\s+/g, " ");
+    lines.push("GLOBE kokko :: " + ctxText.slice(0, 220));
+    if (ctxText.indexOf("マルチペイメントネットワーク") === -1) lines.push("missing mpn");
+    if (ctxText.indexOf("国庫制度") === -1) lines.push("missing kokkoSys");
+    const open = document.querySelectorAll("#context details[open]").length;
+    lines.push("open " + open);
+    state.globeFlow = "kokko";
+    state.pin = { type: "flow", id: "kokko" };
+    render();
+    const ids = model.nodes.filter(nodeShown).map(n => n.id);
+    if (ids.indexOf("mpn") === -1 || ids.indexOf("kokkoSys") === -1) lines.push("kokko net " + ids.join(","));
+    if (ids.indexOf("furikomi") !== -1 || ids.indexOf("ddrj") !== -1 || ids.indexOf("boj") !== -1) lines.push("kokko leaked " + ids.join(","));
+    if (model.edges.filter(edgeVisible).some(e => e.flows.indexOf("kokko") === -1)) lines.push("edge outside kokko");
+    if (document.querySelector('[data-edge="otc-ddrj"] .coin')) lines.push("report edge animated after filter");
+  }
+  const pre = document.getElementById("selftest");
+  pre.className = "show";
+  pre.textContent = lines.join("\n");
+  document.title = "SELFTEST " + model.issues.length;
+}
+</script>
+</body>
+</html>
